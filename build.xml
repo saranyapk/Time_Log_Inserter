@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="TeliaServer" default="compile">
+<property name="compiler.max.memory" value="128m"/>
+<property environment="env" />
+<property name="jdk.home.java_version_1.5.0" value="${env.JAVA_HOME}"/>
+<property name="compiler.generate.no.warnings" value="off"/>
+<property name="profiler.deploy.dir" value="${basedir}/deploy"/>
+<property name="profiler.vendor.dir" value="${basedir}/vendor"/>
+
+<path id="jdk.classpath">
+     <fileset dir="${env.JAVA_HOME}">
+            <include name="jre/lib/charsets.jar"/>
+            <include name="jre/lib/deploy.jar"/>
+            <include name="jre/lib/javaws.jar"/>
+            <include name="jre/lib/jce.jar"/>
+            <include name="jre/lib/jsse.jar"/>
+            <include name="jre/lib/plugin.jar"/>
+            <include name="jre/lib/rt.jar"/>
+            <include name="jre/lib/ext/dnsns.jar"/>
+            <include name="jre/lib/ext/localedata.jar"/>
+            <include name="jre/lib/ext/sunjce_provider.jar"/>
+            <include name="jre/lib/ext/sunpkcs11.jar"/>
+     </fileset>
+</path>
+<path id="profiler.classpath">
+    <pathelement location="${profiler.vendor.dir}/javac2.jar"/>    
+	<pathelement location="${profiler.vendor.dir}/asm-4.0.jar"/>    
+</path>
+
+<path id="profiler.sourcepath">
+    <dirset dir="${basedir}">
+         <include name="src"/>
+    </dirset>
+</path>
+
+<patternset id="compiler.excluded"/>
+
+<taskdef name="javac2" classname="com.intellij.uiDesigner.ant.Javac2">
+		<classpath refid="profiler.classpath"/>
+</taskdef>
+
+<target name="clean">
+        <delete dir="${profiler.deploy.dir}"/>
+		<!--delete dir="${profiler.deploy.dir}/build"/-->
+</target>
+
+<target name="compile" depends="clean" >
+        
+		<mkdir dir="${profiler.deploy.dir}"/>
+        <mkdir dir="${profiler.deploy.dir}/lib"/>
+		<mkdir dir="${profiler.deploy.dir}/build"/>	
+        
+		<javac2 destdir="${profiler.deploy.dir}/build" 
+				debug="${compiler.debug}" 
+				nowarn="${compiler.generate.no.warnings}" 
+				memoryMaximumSize="${compiler.max.memory}" 
+				fork="true" 
+				executable="${env.JAVA_HOME}/bin/javac">
+            <compilerarg line=""/>
+            <classpath refid="profiler.classpath"/>
+            <src refid="profiler.sourcepath"/>
+            <patternset refid="compiler.excluded"/>
+        </javac2>
+        <!--copy todir="${basedir}/build">
+            <fileset dir="${basedir}/src" excludes="**/*.java">
+                <type type="file"/>
+            </fileset>
+        </copy-->
+		<!--copy todir="${basedir}/build">
+            <fileset dir="${basedir}/vendor" excludes="**/*.java">
+                <type type="file"/>
+            </fileset>
+        </copy-->
+</target>
+
+<target name="deploy" depends="compile" >
+        
+	    <jar destfile="${profiler.deploy.dir}/lib/profiler.jar" basedir="${profiler.deploy.dir}/build" excludes="**/*.java">
+		<manifest>
+                <attribute name="Premain-Class" value="profiler.Main"/>
+				<attribute name="Boot-Class-Path" value="asm-4.0.jar"/>
+        </manifest>
+		</jar>
+		
+		<copy todir="${basedir}/Test">
+            <fileset dir="${profiler.deploy.dir}/lib" includes="**/*.jar">
+                <type type="file"/>
+            </fileset>
+        </copy>
+</target>
+
+ </project>
