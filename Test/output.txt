@@ -1,0 +1,2685 @@
+Compiled from "ORCarrierAgreementImporter.java"
+public class com.subex.interconnect.sitespecific.telia.taskcontroller.tasks.orinterface.processor.ORCarrierAgreementImporter extends java.lang.Object
+  SourceFile: "ORCarrierAgreementImporter.java"
+  minor version: 0
+  major version: 50
+  Constant pool:
+const #1 = class	#2;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter
+const #2 = Asciz	com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+const #3 = class	#4;	//  java/lang/Object
+const #4 = Asciz	java/lang/Object;
+const #5 = Asciz	orProcessorTask;
+const #6 = Asciz	Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORProcessorTask;;
+const #7 = Asciz	orProcessorTaskProperties;
+const #8 = Asciz	Lcom/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORProcessorTaskProperties;;
+const #9 = Asciz	orFetchTaskProperties;
+const #10 = Asciz	Lcom/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORFetchTaskProperties;;
+const #11 = Asciz	isCAPrefixInputProducerComplete;
+const #12 = Asciz	Z;
+const #13 = Asciz	isCARateInputProducerComplete;
+const #14 = Asciz	isFinalInputProducerComplete;
+const #15 = Asciz	isDataAccessProducerComplete;
+const #16 = Asciz	caPrefixInputQueue;
+const #17 = Asciz	Ljava/util/concurrent/LinkedBlockingQueue;;
+const #18 = Asciz	Signature;
+const #19 = Asciz	Ljava/util/concurrent/LinkedBlockingQueue<Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/common/data/CarrierAgreementPrefixInput;>;;
+const #20 = Asciz	caRateInputQueue;
+const #21 = Asciz	Ljava/util/concurrent/LinkedBlockingQueue<Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/common/data/CarrierAgreementRateInput;>;;
+const #22 = Asciz	caInputQueue;
+const #23 = Asciz	Ljava/util/concurrent/LinkedBlockingQueue<Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/common/data/CarrierAgreementInput;>;;
+const #24 = Asciz	caDataAccessQueue;
+const #25 = Asciz	Ljava/util/concurrent/LinkedBlockingQueue<Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/dataaccess/CarrierAgreementDataBlock;>;;
+const #26 = Asciz	inputPrefixReaderStageExecutor;
+const #27 = Asciz	Ljava/util/concurrent/ExecutorService;;
+const #28 = Asciz	inputRateReaderStageExecutor;
+const #29 = Asciz	inputSequencerStageExecutor;
+const #30 = Asciz	processingStageExecutor;
+const #31 = Asciz	dataAccessStageExecutor;
+const #32 = Asciz	dataAccessStageFuturesList;
+const #33 = Asciz	Ljava/util/List;;
+const #34 = Asciz	Ljava/util/List<Ljava/util/concurrent/Future<Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/dataaccess/ORDataAccessStageCallableResult;>;>;;
+const #35 = Asciz	databaseInfoHolder;
+const #36 = Asciz	Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/dataaccess/ORInterfaceDatabaseInfoHolder;;
+const #37 = Asciz	insertCountByTblName;
+const #38 = Asciz	Ljava/util/Map;;
+const #39 = Asciz	Ljava/util/Map<Ljava/lang/String;Ljava/lang/Integer;>;;
+const #40 = Asciz	deleteCountByTblName;
+const #41 = Asciz	updateCountByTblName;
+const #42 = Asciz	orCarrierAgreementImporterTaskStatus;
+const #43 = Asciz	Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporterTaskStatus;;
+const #44 = Asciz	log;
+const #45 = Asciz	Lorg/apache/commons/logging/Log;;
+const #46 = Asciz	fetchRequest;
+const #47 = Asciz	Lcom/subex/interconnect/sitespecific/telia/database/hibernate/mappings/reference/OrFetchRequest;;
+const #48 = Asciz	orProcessorInfo;
+const #49 = Asciz	Lcom/subex/interconnect/sitespecific/telia/database/hibernate/mappings/reference/OrProcessorInfo;;
+const #50 = Asciz	tffExternalReferenceTariffCache;
+const #51 = Asciz	Lcom/azure/interconnect/common/caching/caches/TffExternalReferenceTariffCache;;
+const #52 = Asciz	oatCodeOrAuditTypeCache;
+const #53 = Asciz	Lcom/subex/interconnect/sitespecific/telia/caches/OatCodeOrAuditTypeCache;;
+const #54 = Asciz	tariffClassCache;
+const #55 = Asciz	Lcom/azure/spark/common/caching/keycache/IdKeyCache;;
+const #56 = Asciz	Lcom/azure/spark/common/caching/keycache/IdKeyCache<Lcom/azure/spark/database/hibernate/mappings/reference/TariffClass;>;;
+const #57 = Asciz	tffIdEstIdCache;
+const #58 = Asciz	Lcom/azure/interconnect/common/caching/caches/TffIdEstIdCache;;
+const #59 = Asciz	ctrDialCodeCountriesCache;
+const #60 = Asciz	Lcom/subex/interconnect/sitespecific/telia/caches/CtrDialCodeCountriesCache;;
+const #61 = Asciz	countryCache;
+const #62 = Asciz	Lcom/azure/spark/common/caching/keycache/IdKeyCache<Lcom/azure/spark/database/hibernate/mappings/reference/Country;>;;
+const #63 = Asciz	currencyCache;
+const #64 = Asciz	Lcom/azure/spark/common/caching/keycache/IdKeyCache<Lcom/azure/spark/database/hibernate/mappings/reference/Currency;>;;
+const #65 = Asciz	tariffRateNameCache;
+const #66 = Asciz	Lcom/azure/spark/common/caching/keycache/IdKeyCache<Lcom/azure/spark/database/hibernate/mappings/reference/TariffRateName;>;;
+const #67 = Asciz	entityCache;
+const #68 = Asciz	Lcom/subex/sitespecific/sitehelper/taskcontroller/caches/EntEntityEntityCache;;
+const #69 = Asciz	extraArgDfnCache;
+const #70 = Asciz	Lcom/subex/sitespecific/sitehelper/taskcontroller/caches/EntIdEadNameExtraArgsDfnCache;;
+const #71 = Asciz	extraArgInstCache;
+const #72 = Asciz	Lcom/subex/sitespecific/sitehelper/taskcontroller/caches/EadIdEavObjectidExtraArgsInstCache;;
+const #73 = Asciz	orBandTypeKeyCache;
+const #74 = Asciz	Lcom/azure/spark/common/caching/keycache/IdKeyCache<Lcom/subex/interconnect/sitespecific/telia/database/hibernate/mappings/reference/OrBandType;>;;
+const #75 = Asciz	orBandTypes;
+const #76 = Asciz	Ljava/util/List<Lcom/subex/interconnect/sitespecific/telia/database/hibernate/mappings/reference/OrBandType;>;;
+const #77 = Asciz	ctrIdCtrCodeMap;
+const #78 = Asciz	Ljava/util/Map<Ljava/lang/Integer;Ljava/lang/String;>;;
+const #79 = Asciz	partitionModRange;
+const #80 = Asciz	I;
+const #81 = Asciz	isSnapshotIsolationIgnore;
+const #82 = Asciz	previousRunSuccessCASet;
+const #83 = Asciz	Ljava/util/Set;;
+const #84 = Asciz	Ljava/util/Set<Ljava/lang/Long;>;;
+const #85 = Asciz	<clinit>;
+const #86 = Asciz	()V;
+const #87 = Asciz	Code;
+const #88 = Method	#89.#91;	//  org/apache/commons/logging/LogFactory.getLog:(Ljava/lang/Class;)Lorg/apache/commons/logging/Log;
+const #89 = class	#90;	//  org/apache/commons/logging/LogFactory
+const #90 = Asciz	org/apache/commons/logging/LogFactory;
+const #91 = NameAndType	#92:#93;//  getLog:(Ljava/lang/Class;)Lorg/apache/commons/logging/Log;
+const #92 = Asciz	getLog;
+const #93 = Asciz	(Ljava/lang/Class;)Lorg/apache/commons/logging/Log;;
+const #94 = Field	#1.#95;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.log:Lorg/apache/commons/logging/Log;
+const #95 = NameAndType	#44:#45;//  log:Lorg/apache/commons/logging/Log;
+const #96 = Asciz	LineNumberTable;
+const #97 = Asciz	LocalVariableTable;
+const #98 = Asciz	<init>;
+const #99 = Asciz	(Lcom/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORProcessorTaskProperties;)V;
+const #100 = Asciz	Exceptions;
+const #101 = class	#102;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/common/exception/ORInterfaceException
+const #102 = Asciz	com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/common/exception/ORInterfaceException;
+const #103 = Method	#3.#104;	//  java/lang/Object."<init>":()V
+const #104 = NameAndType	#98:#86;//  "<init>":()V
+const #105 = Field	#1.#106;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.isCAPrefixInputProducerComplete:Z
+const #106 = NameAndType	#11:#12;//  isCAPrefixInputProducerComplete:Z
+const #107 = Field	#1.#108;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.isCARateInputProducerComplete:Z
+const #108 = NameAndType	#13:#12;//  isCARateInputProducerComplete:Z
+const #109 = Field	#1.#110;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.isFinalInputProducerComplete:Z
+const #110 = NameAndType	#14:#12;//  isFinalInputProducerComplete:Z
+const #111 = Field	#1.#112;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.isDataAccessProducerComplete:Z
+const #112 = NameAndType	#15:#12;//  isDataAccessProducerComplete:Z
+const #113 = Field	#1.#114;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.caPrefixInputQueue:Ljava/util/concurrent/LinkedBlockingQueue;
+const #114 = NameAndType	#16:#17;//  caPrefixInputQueue:Ljava/util/concurrent/LinkedBlockingQueue;
+const #115 = Field	#1.#116;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.caRateInputQueue:Ljava/util/concurrent/LinkedBlockingQueue;
+const #116 = NameAndType	#20:#17;//  caRateInputQueue:Ljava/util/concurrent/LinkedBlockingQueue;
+const #117 = Field	#1.#118;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.caInputQueue:Ljava/util/concurrent/LinkedBlockingQueue;
+const #118 = NameAndType	#22:#17;//  caInputQueue:Ljava/util/concurrent/LinkedBlockingQueue;
+const #119 = Field	#1.#120;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.caDataAccessQueue:Ljava/util/concurrent/LinkedBlockingQueue;
+const #120 = NameAndType	#24:#17;//  caDataAccessQueue:Ljava/util/concurrent/LinkedBlockingQueue;
+const #121 = Field	#1.#122;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.dataAccessStageFuturesList:Ljava/util/List;
+const #122 = NameAndType	#32:#33;//  dataAccessStageFuturesList:Ljava/util/List;
+const #123 = Field	#1.#124;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.databaseInfoHolder:Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/dataaccess/ORInterfaceDatabaseInfoHolder;
+const #124 = NameAndType	#35:#36;//  databaseInfoHolder:Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/dataaccess/ORInterfaceDatabaseInfoHolder;
+const #125 = Field	#1.#126;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.tffExternalReferenceTariffCache:Lcom/azure/interconnect/common/caching/caches/TffExternalReferenceTariffCache;
+const #126 = NameAndType	#50:#51;//  tffExternalReferenceTariffCache:Lcom/azure/interconnect/common/caching/caches/TffExternalReferenceTariffCache;
+const #127 = Field	#1.#128;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.oatCodeOrAuditTypeCache:Lcom/subex/interconnect/sitespecific/telia/caches/OatCodeOrAuditTypeCache;
+const #128 = NameAndType	#52:#53;//  oatCodeOrAuditTypeCache:Lcom/subex/interconnect/sitespecific/telia/caches/OatCodeOrAuditTypeCache;
+const #129 = Field	#1.#130;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.tariffClassCache:Lcom/azure/spark/common/caching/keycache/IdKeyCache;
+const #130 = NameAndType	#54:#55;//  tariffClassCache:Lcom/azure/spark/common/caching/keycache/IdKeyCache;
+const #131 = Field	#1.#132;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.tffIdEstIdCache:Lcom/azure/interconnect/common/caching/caches/TffIdEstIdCache;
+const #132 = NameAndType	#57:#58;//  tffIdEstIdCache:Lcom/azure/interconnect/common/caching/caches/TffIdEstIdCache;
+const #133 = Field	#1.#134;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.countryCache:Lcom/azure/spark/common/caching/keycache/IdKeyCache;
+const #134 = NameAndType	#61:#55;//  countryCache:Lcom/azure/spark/common/caching/keycache/IdKeyCache;
+const #135 = Field	#1.#136;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.currencyCache:Lcom/azure/spark/common/caching/keycache/IdKeyCache;
+const #136 = NameAndType	#63:#55;//  currencyCache:Lcom/azure/spark/common/caching/keycache/IdKeyCache;
+const #137 = Field	#1.#138;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.tariffRateNameCache:Lcom/azure/spark/common/caching/keycache/IdKeyCache;
+const #138 = NameAndType	#65:#55;//  tariffRateNameCache:Lcom/azure/spark/common/caching/keycache/IdKeyCache;
+const #139 = Field	#1.#140;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.ctrIdCtrCodeMap:Ljava/util/Map;
+const #140 = NameAndType	#77:#38;//  ctrIdCtrCodeMap:Ljava/util/Map;
+const #141 = Field	#1.#142;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.isSnapshotIsolationIgnore:Z
+const #142 = NameAndType	#81:#12;//  isSnapshotIsolationIgnore:Z
+const #143 = Field	#1.#144;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.previousRunSuccessCASet:Ljava/util/Set;
+const #144 = NameAndType	#82:#83;//  previousRunSuccessCASet:Ljava/util/Set;
+const #145 = Field	#1.#146;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.orProcessorTaskProperties:Lcom/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORProcessorTaskProperties;
+const #146 = NameAndType	#7:#8;//  orProcessorTaskProperties:Lcom/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORProcessorTaskProperties;
+const #147 = Method	#1.#148;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.checkDBSnapshotStatus:()Z
+const #148 = NameAndType	#149:#150;//  checkDBSnapshotStatus:()Z
+const #149 = Asciz	checkDBSnapshotStatus;
+const #150 = Asciz	()Z;
+const #151 = Method	#152.#154;	//  com/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORProcessorTaskProperties.getProcessingStageThreadCount:()Ljava/lang/Integer;
+const #152 = class	#153;	//  com/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORProcessorTaskProperties
+const #153 = Asciz	com/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORProcessorTaskProperties;
+const #154 = NameAndType	#155:#156;//  getProcessingStageThreadCount:()Ljava/lang/Integer;
+const #155 = Asciz	getProcessingStageThreadCount;
+const #156 = Asciz	()Ljava/lang/Integer;;
+const #157 = Method	#158.#160;	//  java/lang/Integer.intValue:()I
+const #158 = class	#159;	//  java/lang/Integer
+const #159 = Asciz	java/lang/Integer;
+const #160 = NameAndType	#161:#162;//  intValue:()I
+const #161 = Asciz	intValue;
+const #162 = Asciz	()I;
+const #163 = Method	#152.#164;	//  com/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORProcessorTaskProperties.getDataAccessStageThreadCount:()Ljava/lang/Integer;
+const #164 = NameAndType	#165:#156;//  getDataAccessStageThreadCount:()Ljava/lang/Integer;
+const #165 = Asciz	getDataAccessStageThreadCount;
+const #166 = String	#167;	//  ORProcessor Properties ProcessingStageThreadCount and DataAccessStageThreadCount should be 1 for ReadCommit isolation
+const #167 = Asciz	ORProcessor Properties ProcessingStageThreadCount and DataAccessStageThreadCount should be 1 for ReadCommit isolation;
+const #168 = Method	#101.#169;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/common/exception/ORInterfaceException."<init>":(Ljava/lang/String;)V
+const #169 = NameAndType	#98:#170;//  "<init>":(Ljava/lang/String;)V
+const #170 = Asciz	(Ljava/lang/String;)V;
+const #171 = Asciz	this;
+const #172 = Asciz	Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;;
+const #173 = Asciz	isSnapshotSet;
+const #174 = Asciz	StackMapTable;
+const #175 = Asciz	initialize;
+const #176 = Asciz	(Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORProcessorTask;Lcom/azure/spark/database/hibernate/mappings/reference/Task;Lcom/azure/spark/taskcontroller/tasks/TaskComponentListener;Lcom/azure/spark/database/hibernate/mappings/reference/StreamStage;Lcom/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORFetchTaskProperties;)V;
+const #177 = class	#178;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporterTaskStatus
+const #178 = Asciz	com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporterTaskStatus;
+const #179 = class	#180;	//  java/util/ArrayList
+const #180 = Asciz	java/util/ArrayList;
+const #181 = Method	#179.#104;	//  java/util/ArrayList."<init>":()V
+const #182 = Method	#177.#183;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporterTaskStatus."<init>":(Ljava/util/List;Z)V
+const #183 = NameAndType	#98:#184;//  "<init>":(Ljava/util/List;Z)V
+const #184 = Asciz	(Ljava/util/List;Z)V;
+const #185 = Field	#1.#186;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.orCarrierAgreementImporterTaskStatus:Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporterTaskStatus;
+const #186 = NameAndType	#42:#43;//  orCarrierAgreementImporterTaskStatus:Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporterTaskStatus;
+const #187 = Field	#1.#188;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.orProcessorTask:Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORProcessorTask;
+const #188 = NameAndType	#5:#6;//  orProcessorTask:Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORProcessorTask;
+const #189 = class	#190;	//  java/util/concurrent/LinkedBlockingQueue
+const #190 = Asciz	java/util/concurrent/LinkedBlockingQueue;
+const #191 = Method	#152.#192;	//  com/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORProcessorTaskProperties.getInputPrefixQSize:()Ljava/lang/Integer;
+const #192 = NameAndType	#193:#156;//  getInputPrefixQSize:()Ljava/lang/Integer;
+const #193 = Asciz	getInputPrefixQSize;
+const #194 = Method	#189.#195;	//  java/util/concurrent/LinkedBlockingQueue."<init>":(I)V
+const #195 = NameAndType	#98:#196;//  "<init>":(I)V
+const #196 = Asciz	(I)V;
+const #197 = Method	#152.#198;	//  com/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORProcessorTaskProperties.getInputRateQSize:()Ljava/lang/Integer;
+const #198 = NameAndType	#199:#156;//  getInputRateQSize:()Ljava/lang/Integer;
+const #199 = Asciz	getInputRateQSize;
+const #200 = Method	#152.#201;	//  com/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORProcessorTaskProperties.getInputSequenceQSize:()Ljava/lang/Integer;
+const #201 = NameAndType	#202:#156;//  getInputSequenceQSize:()Ljava/lang/Integer;
+const #202 = Asciz	getInputSequenceQSize;
+const #203 = Method	#189.#104;	//  java/util/concurrent/LinkedBlockingQueue."<init>":()V
+const #204 = Field	#1.#205;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.orFetchTaskProperties:Lcom/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORFetchTaskProperties;
+const #205 = NameAndType	#9:#10;//  orFetchTaskProperties:Lcom/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORFetchTaskProperties;
+const #206 = Method	#1.#207;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.loadCommonCaches:()V
+const #207 = NameAndType	#208:#86;//  loadCommonCaches:()V
+const #208 = Asciz	loadCommonCaches;
+const #209 = Method	#1.#210;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.computePartitionModRange:()V
+const #210 = NameAndType	#211:#86;//  computePartitionModRange:()V
+const #211 = Asciz	computePartitionModRange;
+const #212 = Asciz	orInterfaceTask;
+const #213 = Asciz	task;
+const #214 = Asciz	Lcom/azure/spark/database/hibernate/mappings/reference/Task;;
+const #215 = Asciz	listener;
+const #216 = Asciz	Lcom/azure/spark/taskcontroller/tasks/TaskComponentListener;;
+const #217 = Asciz	streamStage;
+const #218 = Asciz	Lcom/azure/spark/database/hibernate/mappings/reference/StreamStage;;
+const #219 = Asciz	process;
+const #220 = Method	#1.#221;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.preProcessInitialData:()V
+const #221 = NameAndType	#222:#86;//  preProcessInitialData:()V
+const #222 = Asciz	preProcessInitialData;
+const #223 = Method	#1.#224;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.intializeDataAccessStage:()V
+const #224 = NameAndType	#225:#86;//  intializeDataAccessStage:()V
+const #225 = Asciz	intializeDataAccessStage;
+const #226 = Method	#1.#227;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.intializeProcessingStage:()V
+const #227 = NameAndType	#228:#86;//  intializeProcessingStage:()V
+const #228 = Asciz	intializeProcessingStage;
+const #229 = Method	#1.#230;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.startInputReaderStage:()V
+const #230 = NameAndType	#231:#86;//  startInputReaderStage:()V
+const #231 = Asciz	startInputReaderStage;
+const #232 = Method	#177.#233;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporterTaskStatus.getTaskFailureThrowableList:()Ljava/util/List;
+const #233 = NameAndType	#234:#235;//  getTaskFailureThrowableList:()Ljava/util/List;
+const #234 = Asciz	getTaskFailureThrowableList;
+const #235 = Asciz	()Ljava/util/List;;
+const #236 = InterfaceMethod	#237.#239;	//  java/util/List.size:()I
+const #237 = class	#238;	//  java/util/List
+const #238 = Asciz	java/util/List;
+const #239 = NameAndType	#240:#162;//  size:()I
+const #240 = Asciz	size;
+const #241 = Method	#1.#242;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.printException:()V
+const #242 = NameAndType	#243:#86;//  printException:()V
+const #243 = Asciz	printException;
+const #244 = Method	#1.#245;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.inputSequencer:()V
+const #245 = NameAndType	#246:#86;//  inputSequencer:()V
+const #246 = Asciz	inputSequencer;
+const #247 = Method	#177.#248;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporterTaskStatus.isTaskCompleted:()Z
+const #248 = NameAndType	#249:#150;//  isTaskCompleted:()Z
+const #249 = Asciz	isTaskCompleted;
+const #250 = Method	#3.#251;	//  java/lang/Object.wait:()V
+const #251 = NameAndType	#252:#86;//  wait:()V
+const #252 = Asciz	wait;
+const #253 = Method	#254.#256;	//  java/lang/InterruptedException.printStackTrace:()V
+const #254 = class	#255;	//  java/lang/InterruptedException
+const #255 = Asciz	java/lang/InterruptedException;
+const #256 = NameAndType	#257:#86;//  printStackTrace:()V
+const #257 = Asciz	printStackTrace;
+const #258 = Method	#101.#259;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/common/exception/ORInterfaceException."<init>":(Ljava/lang/Throwable;)V
+const #259 = NameAndType	#98:#260;//  "<init>":(Ljava/lang/Throwable;)V
+const #260 = Asciz	(Ljava/lang/Throwable;)V;
+const #261 = String	#262;	//  Main Thread : Got Notification .
+const #262 = Asciz	Main Thread : Got Notification .;
+const #263 = InterfaceMethod	#264.#266;	//  org/apache/commons/logging/Log.info:(Ljava/lang/Object;)V
+const #264 = class	#265;	//  org/apache/commons/logging/Log
+const #265 = Asciz	org/apache/commons/logging/Log;
+const #266 = NameAndType	#267:#268;//  info:(Ljava/lang/Object;)V
+const #267 = Asciz	info;
+const #268 = Asciz	(Ljava/lang/Object;)V;
+const #269 = String	#270;	//  All the sub tasks are completed successfully
+const #270 = Asciz	All the sub tasks are completed successfully;
+const #271 = Asciz	e;
+const #272 = Asciz	Ljava/lang/InterruptedException;;
+const #273 = class	#274;	//  java/lang/Throwable
+const #274 = Asciz	java/lang/Throwable;
+const #275 = class	#276;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/delta/DeltaProcessor
+const #276 = Asciz	com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/delta/DeltaProcessor;
+const #277 = Method	#278.#280;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORProcessorTask.getTask:()Lcom/azure/spark/database/hibernate/mappings/reference/Task;
+const #278 = class	#279;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORProcessorTask
+const #279 = Asciz	com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORProcessorTask;
+const #280 = NameAndType	#281:#282;//  getTask:()Lcom/azure/spark/database/hibernate/mappings/reference/Task;
+const #281 = Asciz	getTask;
+const #282 = Asciz	()Lcom/azure/spark/database/hibernate/mappings/reference/Task;;
+const #283 = Method	#275.#284;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/delta/DeltaProcessor."<init>":(Lcom/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORProcessorTaskProperties;Lcom/azure/spark/database/hibernate/mappings/reference/Task;Lcom/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORFetchTaskProperties;Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;)V
+const #284 = NameAndType	#98:#285;//  "<init>":(Lcom/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORProcessorTaskProperties;Lcom/azure/spark/database/hibernate/mappings/reference/Task;Lcom/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORFetchTaskProperties;Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;)V
+const #285 = Asciz	(Lcom/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORProcessorTaskProperties;Lcom/azure/spark/database/hibernate/mappings/reference/Task;Lcom/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORFetchTaskProperties;Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;)V;
+const #286 = Method	#275.#287;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/delta/DeltaProcessor.execute:()V
+const #287 = NameAndType	#288:#86;//  execute:()V
+const #288 = Asciz	execute;
+const #289 = Asciz	proc;
+const #290 = Asciz	Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/delta/DeltaProcessor;;
+const #291 = class	#292;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/dataaccess/ORInterfaceDatabaseInfoHolder
+const #292 = Asciz	com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/dataaccess/ORInterfaceDatabaseInfoHolder;
+const #293 = Method	#291.#104;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/dataaccess/ORInterfaceDatabaseInfoHolder."<init>":()V
+const #294 = Method	#295.#297;	//  java/util/concurrent/Executors.newFixedThreadPool:(I)Ljava/util/concurrent/ExecutorService;
+const #295 = class	#296;	//  java/util/concurrent/Executors
+const #296 = Asciz	java/util/concurrent/Executors;
+const #297 = NameAndType	#298:#299;//  newFixedThreadPool:(I)Ljava/util/concurrent/ExecutorService;
+const #298 = Asciz	newFixedThreadPool;
+const #299 = Asciz	(I)Ljava/util/concurrent/ExecutorService;;
+const #300 = Field	#1.#301;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.dataAccessStageExecutor:Ljava/util/concurrent/ExecutorService;
+const #301 = NameAndType	#31:#27;//  dataAccessStageExecutor:Ljava/util/concurrent/ExecutorService;
+const #302 = class	#303;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/dataaccess/ORDataAccessStageCallable
+const #303 = Asciz	com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/dataaccess/ORDataAccessStageCallable;
+const #304 = Method	#305.#307;	//  com/azure/spark/common/user/UserHelper.getCurrentUserId:()Ljava/lang/Integer;
+const #305 = class	#306;	//  com/azure/spark/common/user/UserHelper
+const #306 = Asciz	com/azure/spark/common/user/UserHelper;
+const #307 = NameAndType	#308:#156;//  getCurrentUserId:()Ljava/lang/Integer;
+const #308 = Asciz	getCurrentUserId;
+const #309 = Method	#302.#310;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/dataaccess/ORDataAccessStageCallable."<init>":(ILcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/dataaccess/ORInterfaceDatabaseInfoHolder;Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;)V
+const #310 = NameAndType	#98:#311;//  "<init>":(ILcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/dataaccess/ORInterfaceDatabaseInfoHolder;Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;)V
+const #311 = Asciz	(ILcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/dataaccess/ORInterfaceDatabaseInfoHolder;Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;)V;
+const #312 = InterfaceMethod	#313.#315;	//  java/util/concurrent/ExecutorService.submit:(Ljava/util/concurrent/Callable;)Ljava/util/concurrent/Future;
+const #313 = class	#314;	//  java/util/concurrent/ExecutorService
+const #314 = Asciz	java/util/concurrent/ExecutorService;
+const #315 = NameAndType	#316:#317;//  submit:(Ljava/util/concurrent/Callable;)Ljava/util/concurrent/Future;
+const #316 = Asciz	submit;
+const #317 = Asciz	(Ljava/util/concurrent/Callable;)Ljava/util/concurrent/Future;;
+const #318 = InterfaceMethod	#237.#319;	//  java/util/List.add:(Ljava/lang/Object;)Z
+const #319 = NameAndType	#320:#321;//  add:(Ljava/lang/Object;)Z
+const #320 = Asciz	add;
+const #321 = Asciz	(Ljava/lang/Object;)Z;
+const #322 = String	#323;	//  Unable to create ORDataAccessStageCallable
+const #323 = Asciz	Unable to create ORDataAccessStageCallable;
+const #324 = Method	#101.#325;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/common/exception/ORInterfaceException."<init>":(Ljava/lang/String;Ljava/lang/Throwable;[Ljava/lang/Object;)V
+const #325 = NameAndType	#98:#326;//  "<init>":(Ljava/lang/String;Ljava/lang/Throwable;[Ljava/lang/Object;)V
+const #326 = Asciz	(Ljava/lang/String;Ljava/lang/Throwable;[Ljava/lang/Object;)V;
+const #327 = class	#328;	//  com/azure/spark/common/user/UserHelperException
+const #328 = Asciz	com/azure/spark/common/user/UserHelperException;
+const #329 = Asciz	count;
+const #330 = Asciz	Lcom/azure/spark/common/user/UserHelperException;;
+const #331 = Field	#1.#332;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.processingStageExecutor:Ljava/util/concurrent/ExecutorService;
+const #332 = NameAndType	#30:#27;//  processingStageExecutor:Ljava/util/concurrent/ExecutorService;
+const #333 = class	#334;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/process/ProcessingStageCallable
+const #334 = Asciz	com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/process/ProcessingStageCallable;
+const #335 = Method	#333.#336;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/process/ProcessingStageCallable."<init>":(Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;)V
+const #336 = NameAndType	#98:#337;//  "<init>":(Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;)V
+const #337 = Asciz	(Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;)V;
+const #338 = Method	#1.#339;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.loadReaderCommonCaches:()V
+const #339 = NameAndType	#340:#86;//  loadReaderCommonCaches:()V
+const #340 = Asciz	loadReaderCommonCaches;
+const #341 = class	#342;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/reader/PrefixInputReaderCallable
+const #342 = Asciz	com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/reader/PrefixInputReaderCallable;
+const #343 = Method	#341.#336;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/reader/PrefixInputReaderCallable."<init>":(Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;)V
+const #344 = Method	#295.#345;	//  java/util/concurrent/Executors.newSingleThreadExecutor:()Ljava/util/concurrent/ExecutorService;
+const #345 = NameAndType	#346:#347;//  newSingleThreadExecutor:()Ljava/util/concurrent/ExecutorService;
+const #346 = Asciz	newSingleThreadExecutor;
+const #347 = Asciz	()Ljava/util/concurrent/ExecutorService;;
+const #348 = Field	#1.#349;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.inputPrefixReaderStageExecutor:Ljava/util/concurrent/ExecutorService;
+const #349 = NameAndType	#26:#27;//  inputPrefixReaderStageExecutor:Ljava/util/concurrent/ExecutorService;
+const #350 = class	#351;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/reader/RateInputReaderCallable
+const #351 = Asciz	com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/reader/RateInputReaderCallable;
+const #352 = Method	#350.#336;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/reader/RateInputReaderCallable."<init>":(Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;)V
+const #353 = Field	#1.#354;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.inputRateReaderStageExecutor:Ljava/util/concurrent/ExecutorService;
+const #354 = NameAndType	#28:#27;//  inputRateReaderStageExecutor:Ljava/util/concurrent/ExecutorService;
+const #355 = Asciz	prefixInputReaderCallable;
+const #356 = Asciz	Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/reader/PrefixInputReaderCallable;;
+const #357 = Asciz	rateInputReaderCallable;
+const #358 = Asciz	Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/reader/RateInputReaderCallable;;
+const #359 = Field	#1.#360;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.inputSequencerStageExecutor:Ljava/util/concurrent/ExecutorService;
+const #360 = NameAndType	#29:#27;//  inputSequencerStageExecutor:Ljava/util/concurrent/ExecutorService;
+const #361 = class	#362;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/inputsequencer/ORInputSequencerCallable
+const #362 = Asciz	com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/inputsequencer/ORInputSequencerCallable;
+const #363 = Method	#361.#336;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/inputsequencer/ORInputSequencerCallable."<init>":(Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;)V
+const #364 = Asciz	finalise;
+const #365 = Method	#1.#366;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.consolidatedDataAccessLog:()V
+const #366 = NameAndType	#367:#86;//  consolidatedDataAccessLog:()V
+const #367 = Asciz	consolidatedDataAccessLog;
+const #368 = Method	#1.#369;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.shutdownExcutors:()V
+const #369 = NameAndType	#370:#86;//  shutdownExcutors:()V
+const #370 = Asciz	shutdownExcutors;
+const #371 = InterfaceMethod	#237.#372;	//  java/util/List.iterator:()Ljava/util/Iterator;
+const #372 = NameAndType	#373:#374;//  iterator:()Ljava/util/Iterator;
+const #373 = Asciz	iterator;
+const #374 = Asciz	()Ljava/util/Iterator;;
+const #375 = InterfaceMethod	#376.#378;	//  java/util/Iterator.next:()Ljava/lang/Object;
+const #376 = class	#377;	//  java/util/Iterator
+const #377 = Asciz	java/util/Iterator;
+const #378 = NameAndType	#379:#380;//  next:()Ljava/lang/Object;
+const #379 = Asciz	next;
+const #380 = Asciz	()Ljava/lang/Object;;
+const #381 = class	#382;	//  java/util/concurrent/Future
+const #382 = Asciz	java/util/concurrent/Future;
+const #383 = InterfaceMethod	#381.#384;	//  java/util/concurrent/Future.get:()Ljava/lang/Object;
+const #384 = NameAndType	#385:#380;//  get:()Ljava/lang/Object;
+const #385 = Asciz	get;
+const #386 = class	#387;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/dataaccess/ORDataAccessStageCallableResult
+const #387 = Asciz	com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/dataaccess/ORDataAccessStageCallableResult;
+const #388 = Method	#386.#389;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/dataaccess/ORDataAccessStageCallableResult.getCarrierAgreementResultList:()Ljava/util/List;
+const #389 = NameAndType	#390:#235;//  getCarrierAgreementResultList:()Ljava/util/List;
+const #390 = Asciz	getCarrierAgreementResultList;
+const #391 = InterfaceMethod	#237.#392;	//  java/util/List.addAll:(Ljava/util/Collection;)Z
+const #392 = NameAndType	#393:#394;//  addAll:(Ljava/util/Collection;)Z
+const #393 = Asciz	addAll;
+const #394 = Asciz	(Ljava/util/Collection;)Z;
+const #395 = Method	#396.#256;	//  java/util/concurrent/ExecutionException.printStackTrace:()V
+const #396 = class	#397;	//  java/util/concurrent/ExecutionException
+const #397 = Asciz	java/util/concurrent/ExecutionException;
+const #398 = InterfaceMethod	#376.#399;	//  java/util/Iterator.hasNext:()Z
+const #399 = NameAndType	#400:#150;//  hasNext:()Z
+const #400 = Asciz	hasNext;
+const #401 = class	#402;	//  java/util/HashMap
+const #402 = Asciz	java/util/HashMap;
+const #403 = Method	#401.#104;	//  java/util/HashMap."<init>":()V
+const #404 = Field	#1.#405;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.insertCountByTblName:Ljava/util/Map;
+const #405 = NameAndType	#37:#38;//  insertCountByTblName:Ljava/util/Map;
+const #406 = Field	#1.#407;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.updateCountByTblName:Ljava/util/Map;
+const #407 = NameAndType	#41:#38;//  updateCountByTblName:Ljava/util/Map;
+const #408 = Field	#1.#409;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.deleteCountByTblName:Ljava/util/Map;
+const #409 = NameAndType	#40:#38;//  deleteCountByTblName:Ljava/util/Map;
+const #410 = class	#411;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/dataaccess/CarrierAgreementDataBlockResult
+const #411 = Asciz	com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/dataaccess/CarrierAgreementDataBlockResult;
+const #412 = Method	#410.#413;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/dataaccess/CarrierAgreementDataBlockResult.getInsertCountByTblName:()Ljava/util/Map;
+const #413 = NameAndType	#414:#415;//  getInsertCountByTblName:()Ljava/util/Map;
+const #414 = Asciz	getInsertCountByTblName;
+const #415 = Asciz	()Ljava/util/Map;;
+const #416 = InterfaceMethod	#417.#419;	//  java/util/Map.keySet:()Ljava/util/Set;
+const #417 = class	#418;	//  java/util/Map
+const #418 = Asciz	java/util/Map;
+const #419 = NameAndType	#420:#421;//  keySet:()Ljava/util/Set;
+const #420 = Asciz	keySet;
+const #421 = Asciz	()Ljava/util/Set;;
+const #422 = InterfaceMethod	#423.#372;	//  java/util/Set.iterator:()Ljava/util/Iterator;
+const #423 = class	#424;	//  java/util/Set
+const #424 = Asciz	java/util/Set;
+const #425 = class	#426;	//  java/lang/String
+const #426 = Asciz	java/lang/String;
+const #427 = InterfaceMethod	#417.#428;	//  java/util/Map.get:(Ljava/lang/Object;)Ljava/lang/Object;
+const #428 = NameAndType	#385:#429;//  get:(Ljava/lang/Object;)Ljava/lang/Object;
+const #429 = Asciz	(Ljava/lang/Object;)Ljava/lang/Object;;
+const #430 = Method	#158.#431;	//  java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+const #431 = NameAndType	#432:#433;//  valueOf:(I)Ljava/lang/Integer;
+const #432 = Asciz	valueOf;
+const #433 = Asciz	(I)Ljava/lang/Integer;;
+const #434 = InterfaceMethod	#417.#435;	//  java/util/Map.put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+const #435 = NameAndType	#436:#437;//  put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+const #436 = Asciz	put;
+const #437 = Asciz	(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;;
+const #438 = Method	#410.#439;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/dataaccess/CarrierAgreementDataBlockResult.getUpdateCountByTblName:()Ljava/util/Map;
+const #439 = NameAndType	#440:#415;//  getUpdateCountByTblName:()Ljava/util/Map;
+const #440 = Asciz	getUpdateCountByTblName;
+const #441 = Method	#410.#442;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/dataaccess/CarrierAgreementDataBlockResult.getDeleteCountByTblName:()Ljava/util/Map;
+const #442 = NameAndType	#443:#415;//  getDeleteCountByTblName:()Ljava/util/Map;
+const #443 = Asciz	getDeleteCountByTblName;
+const #444 = Method	#1.#445;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.consolidatedLogForAllDataBlocks:()V
+const #445 = NameAndType	#446:#86;//  consolidatedLogForAllDataBlocks:()V
+const #446 = Asciz	consolidatedLogForAllDataBlocks;
+const #447 = Asciz	carrierAgreementResultList;
+const #448 = Asciz	dataAccessStageFuture;
+const #449 = Asciz	Ljava/util/concurrent/Future;;
+const #450 = Asciz	orDataAccessStageCallableResult;
+const #451 = Asciz	Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/dataaccess/ORDataAccessStageCallableResult;;
+const #452 = Asciz	Ljava/util/concurrent/ExecutionException;;
+const #453 = Asciz	crrierAgreementDataBlockResult;
+const #454 = Asciz	Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/dataaccess/CarrierAgreementDataBlockResult;;
+const #455 = Asciz	key;
+const #456 = Asciz	Ljava/lang/String;;
+const #457 = Asciz	Ljava/lang/Integer;;
+const #458 = Asciz	LocalVariableTypeTable;
+const #459 = Asciz	Ljava/util/List<Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/dataaccess/CarrierAgreementDataBlockResult;>;;
+const #460 = Asciz	Ljava/util/concurrent/Future<Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/dataaccess/ORDataAccessStageCallableResult;>;;
+const #461 = InterfaceMethod	#417.#462;	//  java/util/Map.isEmpty:()Z
+const #462 = NameAndType	#463:#150;//  isEmpty:()Z
+const #463 = Asciz	isEmpty;
+const #464 = String	#465;	//  No changes in database
+const #465 = Asciz	No changes in database;
+const #466 = class	#467;	//  java/lang/StringBuilder
+const #467 = Asciz	java/lang/StringBuilder;
+const #468 = Method	#466.#104;	//  java/lang/StringBuilder."<init>":()V
+const #469 = Method	#466.#470;	//  java/lang/StringBuilder.append:(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+const #470 = NameAndType	#471:#472;//  append:(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+const #471 = Asciz	append;
+const #472 = Asciz	(Ljava/lang/Object;)Ljava/lang/StringBuilder;;
+const #473 = String	#474;	//   Row(s) inserted in the table 
+const #474 = Asciz	 Row(s) inserted in the table ;
+const #475 = Method	#466.#476;	//  java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+const #476 = NameAndType	#471:#477;//  append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+const #477 = Asciz	(Ljava/lang/String;)Ljava/lang/StringBuilder;;
+const #478 = Method	#466.#479;	//  java/lang/StringBuilder.toString:()Ljava/lang/String;
+const #479 = NameAndType	#480:#481;//  toString:()Ljava/lang/String;
+const #480 = Asciz	toString;
+const #481 = Asciz	()Ljava/lang/String;;
+const #482 = String	#483;	//   Row(s) updated in the table 
+const #483 = Asciz	 Row(s) updated in the table ;
+const #484 = String	#485;	//   Row(s) deleted in the table 
+const #485 = Asciz	 Row(s) deleted in the table ;
+const #486 = Asciz	tableName;
+const #487 = Method	#273.#488;	//  java/lang/Throwable.getStackTrace:()[Ljava/lang/StackTraceElement;
+const #488 = NameAndType	#489:#490;//  getStackTrace:()[Ljava/lang/StackTraceElement;
+const #489 = Asciz	getStackTrace;
+const #490 = Asciz	()[Ljava/lang/StackTraceElement;;
+const #491 = Method	#492.#479;	//  java/lang/StackTraceElement.toString:()Ljava/lang/String;
+const #492 = class	#493;	//  java/lang/StackTraceElement
+const #493 = Asciz	java/lang/StackTraceElement;
+const #494 = InterfaceMethod	#237.#495;	//  java/util/List.get:(I)Ljava/lang/Object;
+const #495 = NameAndType	#385:#496;//  get:(I)Ljava/lang/Object;
+const #496 = Asciz	(I)Ljava/lang/Object;;
+const #497 = Asciz	t;
+const #498 = Asciz	Ljava/lang/Throwable;;
+const #499 = Asciz	ste;
+const #500 = Asciz	Ljava/lang/StackTraceElement;;
+const #501 = class	#502;	//  "[Ljava/lang/StackTraceElement;"
+const #502 = Asciz	[Ljava/lang/StackTraceElement;;
+const #503 = String	#504;	//   Attempting to Stop all the thread pools
+const #504 = Asciz	 Attempting to Stop all the thread pools;
+const #505 = Method	#1.#506;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.getAllExecutors:()Ljava/util/List;
+const #506 = NameAndType	#507:#235;//  getAllExecutors:()Ljava/util/List;
+const #507 = Asciz	getAllExecutors;
+const #508 = InterfaceMethod	#313.#509;	//  java/util/concurrent/ExecutorService.shutdownNow:()Ljava/util/List;
+const #509 = NameAndType	#510:#235;//  shutdownNow:()Ljava/util/List;
+const #510 = Asciz	shutdownNow;
+const #511 = String	#512;	//  Shutdown executor request failed: 
+const #512 = Asciz	Shutdown executor request failed: ;
+const #513 = Method	#466.#169;	//  java/lang/StringBuilder."<init>":(Ljava/lang/String;)V
+const #514 = Method	#273.#515;	//  java/lang/Throwable.getMessage:()Ljava/lang/String;
+const #515 = NameAndType	#516:#481;//  getMessage:()Ljava/lang/String;
+const #516 = Asciz	getMessage;
+const #517 = InterfaceMethod	#264.#518;	//  org/apache/commons/logging/Log.error:(Ljava/lang/Object;)V
+const #518 = NameAndType	#519:#268;//  error:(Ljava/lang/Object;)V
+const #519 = Asciz	error;
+const #520 = InterfaceMethod	#313.#521;	//  java/util/concurrent/ExecutorService.isTerminated:()Z
+const #521 = NameAndType	#522:#150;//  isTerminated:()Z
+const #522 = Asciz	isTerminated;
+const #523 = String	#524;	//   All the threads stopped successfully
+const #524 = Asciz	 All the threads stopped successfully;
+const #525 = String	#526;	//   Waiting for all the running threads to terminate.. Will recheck the status in 5sec[s]
+const #526 = Asciz	 Waiting for all the running threads to terminate.. Will recheck the status in 5sec[s];
+const #527 = long	5000l;
+const #529 = Method	#530.#532;	//  java/lang/Thread.sleep:(J)V
+const #530 = class	#531;	//  java/lang/Thread
+const #531 = Asciz	java/lang/Thread;
+const #532 = NameAndType	#533:#534;//  sleep:(J)V
+const #533 = Asciz	sleep;
+const #534 = Asciz	(J)V;
+const #535 = Asciz	executors;
+const #536 = Asciz	executor;
+const #537 = Asciz	Ljava/util/List<Ljava/util/concurrent/ExecutorService;>;;
+const #538 = Asciz	()Ljava/util/List<Ljava/util/concurrent/ExecutorService;>;;
+const #539 = Method	#540.#542;	//  com/azure/spark/common/caching/CacheManager.getCacheManager:()Lcom/azure/spark/common/caching/CacheManager;
+const #540 = class	#541;	//  com/azure/spark/common/caching/CacheManager
+const #541 = Asciz	com/azure/spark/common/caching/CacheManager;
+const #542 = NameAndType	#543:#544;//  getCacheManager:()Lcom/azure/spark/common/caching/CacheManager;
+const #543 = Asciz	getCacheManager;
+const #544 = Asciz	()Lcom/azure/spark/common/caching/CacheManager;;
+const #545 = class	#546;	//  com/azure/interconnect/common/caching/caches/TffExternalReferenceTariffCache
+const #546 = Asciz	com/azure/interconnect/common/caching/caches/TffExternalReferenceTariffCache;
+const #547 = class	#548;	//  com/azure/spark/database/hibernate/mappings/reference/Tariff
+const #548 = Asciz	com/azure/spark/database/hibernate/mappings/reference/Tariff;
+const #549 = Method	#540.#550;	//  com/azure/spark/common/caching/CacheManager.getCache:(Ljava/lang/Class;Ljava/lang/Class;)Lcom/azure/spark/common/caching/Cache;
+const #550 = NameAndType	#551:#552;//  getCache:(Ljava/lang/Class;Ljava/lang/Class;)Lcom/azure/spark/common/caching/Cache;
+const #551 = Asciz	getCache;
+const #552 = Asciz	(Ljava/lang/Class;Ljava/lang/Class;)Lcom/azure/spark/common/caching/Cache;;
+const #553 = class	#554;	//  com/azure/spark/common/caching/keycache/IdKeyCache
+const #554 = Asciz	com/azure/spark/common/caching/keycache/IdKeyCache;
+const #555 = class	#556;	//  com/azure/spark/database/hibernate/mappings/reference/TariffClass
+const #556 = Asciz	com/azure/spark/database/hibernate/mappings/reference/TariffClass;
+const #557 = class	#558;	//  com/subex/sitespecific/sitehelper/taskcontroller/caches/EntIdEadNameExtraArgsDfnCache
+const #558 = Asciz	com/subex/sitespecific/sitehelper/taskcontroller/caches/EntIdEadNameExtraArgsDfnCache;
+const #559 = class	#560;	//  com/azure/spark/database/hibernate/mappings/reference/ExtraArgsDfn
+const #560 = Asciz	com/azure/spark/database/hibernate/mappings/reference/ExtraArgsDfn;
+const #561 = Field	#1.#562;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.extraArgDfnCache:Lcom/subex/sitespecific/sitehelper/taskcontroller/caches/EntIdEadNameExtraArgsDfnCache;
+const #562 = NameAndType	#69:#70;//  extraArgDfnCache:Lcom/subex/sitespecific/sitehelper/taskcontroller/caches/EntIdEadNameExtraArgsDfnCache;
+const #563 = class	#564;	//  com/subex/sitespecific/sitehelper/taskcontroller/caches/EadIdEavObjectidExtraArgsInstCache
+const #564 = Asciz	com/subex/sitespecific/sitehelper/taskcontroller/caches/EadIdEavObjectidExtraArgsInstCache;
+const #565 = class	#566;	//  com/azure/spark/database/hibernate/mappings/reference/ExtraArgsInst
+const #566 = Asciz	com/azure/spark/database/hibernate/mappings/reference/ExtraArgsInst;
+const #567 = Field	#1.#568;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.extraArgInstCache:Lcom/subex/sitespecific/sitehelper/taskcontroller/caches/EadIdEavObjectidExtraArgsInstCache;
+const #568 = NameAndType	#71:#72;//  extraArgInstCache:Lcom/subex/sitespecific/sitehelper/taskcontroller/caches/EadIdEavObjectidExtraArgsInstCache;
+const #569 = class	#570;	//  com/subex/sitespecific/sitehelper/taskcontroller/caches/EntEntityEntityCache
+const #570 = Asciz	com/subex/sitespecific/sitehelper/taskcontroller/caches/EntEntityEntityCache;
+const #571 = class	#572;	//  com/azure/spark/database/hibernate/mappings/reference/EntityTbl
+const #572 = Asciz	com/azure/spark/database/hibernate/mappings/reference/EntityTbl;
+const #573 = Field	#1.#574;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.entityCache:Lcom/subex/sitespecific/sitehelper/taskcontroller/caches/EntEntityEntityCache;
+const #574 = NameAndType	#67:#68;//  entityCache:Lcom/subex/sitespecific/sitehelper/taskcontroller/caches/EntEntityEntityCache;
+const #575 = class	#576;	//  com/azure/interconnect/common/caching/caches/TffIdEstIdCache
+const #576 = Asciz	com/azure/interconnect/common/caching/caches/TffIdEstIdCache;
+const #577 = class	#578;	//  com/azure/spark/database/hibernate/mappings/reference/TariffElementSet
+const #578 = Asciz	com/azure/spark/database/hibernate/mappings/reference/TariffElementSet;
+const #579 = class	#580;	//  com/subex/interconnect/sitespecific/telia/caches/CtrDialCodeCountriesCache
+const #580 = Asciz	com/subex/interconnect/sitespecific/telia/caches/CtrDialCodeCountriesCache;
+const #581 = class	#582;	//  com/azure/spark/database/hibernate/mappings/reference/Country
+const #582 = Asciz	com/azure/spark/database/hibernate/mappings/reference/Country;
+const #583 = Field	#1.#584;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.ctrDialCodeCountriesCache:Lcom/subex/interconnect/sitespecific/telia/caches/CtrDialCodeCountriesCache;
+const #584 = NameAndType	#59:#60;//  ctrDialCodeCountriesCache:Lcom/subex/interconnect/sitespecific/telia/caches/CtrDialCodeCountriesCache;
+const #585 = class	#586;	//  com/azure/spark/database/hibernate/mappings/reference/Currency
+const #586 = Asciz	com/azure/spark/database/hibernate/mappings/reference/Currency;
+const #587 = class	#588;	//  com/azure/spark/database/hibernate/mappings/reference/TariffRateName
+const #588 = Asciz	com/azure/spark/database/hibernate/mappings/reference/TariffRateName;
+const #589 = class	#590;	//  com/subex/interconnect/sitespecific/telia/caches/OatCodeOrAuditTypeCache
+const #590 = Asciz	com/subex/interconnect/sitespecific/telia/caches/OatCodeOrAuditTypeCache;
+const #591 = class	#592;	//  com/subex/interconnect/sitespecific/telia/database/hibernate/mappings/reference/OrAuditType
+const #592 = Asciz	com/subex/interconnect/sitespecific/telia/database/hibernate/mappings/reference/OrAuditType;
+const #593 = class	#594;	//  com/subex/interconnect/sitespecific/telia/database/hibernate/mappings/reference/OrBandType
+const #594 = Asciz	com/subex/interconnect/sitespecific/telia/database/hibernate/mappings/reference/OrBandType;
+const #595 = Field	#1.#596;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.orBandTypeKeyCache:Lcom/azure/spark/common/caching/keycache/IdKeyCache;
+const #596 = NameAndType	#73:#55;//  orBandTypeKeyCache:Lcom/azure/spark/common/caching/keycache/IdKeyCache;
+const #597 = Method	#553.#598;	//  com/azure/spark/common/caching/keycache/IdKeyCache.getAllItems:()Ljava/util/List;
+const #598 = NameAndType	#599:#235;//  getAllItems:()Ljava/util/List;
+const #599 = Asciz	getAllItems;
+const #600 = Field	#1.#601;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.orBandTypes:Ljava/util/List;
+const #601 = NameAndType	#75:#33;//  orBandTypes:Ljava/util/List;
+const #602 = Method	#1.#603;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.loadCtrIdCtrCodeMap:()Ljava/util/Map;
+const #603 = NameAndType	#604:#415;//  loadCtrIdCtrCodeMap:()Ljava/util/Map;
+const #604 = Asciz	loadCtrIdCtrCodeMap;
+const #605 = String	#606;	//  Refreshing Caches...
+const #606 = Asciz	Refreshing Caches...;
+const #607 = Method	#608.#610;	//  com/azure/sparkcommon/SparkString.create:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+const #608 = class	#609;	//  com/azure/sparkcommon/SparkString
+const #609 = Asciz	com/azure/sparkcommon/SparkString;
+const #610 = NameAndType	#611:#612;//  create:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+const #611 = Asciz	create;
+const #612 = Asciz	(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;;
+const #613 = Method	#614.#616;	//  com/azure/spark/common/refresh/RefreshManager.refreshCheckChanges:()V
+const #614 = class	#615;	//  com/azure/spark/common/refresh/RefreshManager
+const #615 = Asciz	com/azure/spark/common/refresh/RefreshManager;
+const #616 = NameAndType	#617:#86;//  refreshCheckChanges:()V
+const #617 = Asciz	refreshCheckChanges;
+const #618 = String	#619;	//  Error refreshing components for task %1
+const #619 = Asciz	Error refreshing components for task %1;
+const #620 = InterfaceMethod	#621.#623;	//  com/azure/spark/database/hibernate/mappings/reference/Task.getTskId:()I
+const #621 = class	#622;	//  com/azure/spark/database/hibernate/mappings/reference/Task
+const #622 = Asciz	com/azure/spark/database/hibernate/mappings/reference/Task;
+const #623 = NameAndType	#624:#162;//  getTskId:()I
+const #624 = Asciz	getTskId;
+const #625 = String	#626;	//  Unable to load caches.
+const #626 = Asciz	Unable to load caches.;
+const #627 = class	#628;	//  com/azure/spark/common/refresh/RefreshException
+const #628 = Asciz	com/azure/spark/common/refresh/RefreshException;
+const #629 = class	#630;	//  com/azure/spark/common/caching/CacheManagerException
+const #630 = Asciz	com/azure/spark/common/caching/CacheManagerException;
+const #631 = class	#632;	//  net/sf/hibernate/HibernateException
+const #632 = Asciz	net/sf/hibernate/HibernateException;
+const #633 = Asciz	Lcom/azure/spark/common/refresh/RefreshException;;
+const #634 = Asciz	Lcom/azure/spark/common/caching/CacheManagerException;;
+const #635 = Asciz	Lnet/sf/hibernate/HibernateException;;
+const #636 = Method	#637.#639;	//  com/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORFetchTaskProperties.getPartitionSchema:()Ljava/lang/String;
+const #637 = class	#638;	//  com/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORFetchTaskProperties
+const #638 = Asciz	com/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORFetchTaskProperties;
+const #639 = NameAndType	#640:#481;//  getPartitionSchema:()Ljava/lang/String;
+const #640 = Asciz	getPartitionSchema;
+const #641 = String	#642;	//  ;
+const #642 = Asciz	;;
+const #643 = Method	#425.#644;	//  java/lang/String.split:(Ljava/lang/String;)[Ljava/lang/String;
+const #644 = NameAndType	#645:#646;//  split:(Ljava/lang/String;)[Ljava/lang/String;
+const #645 = Asciz	split;
+const #646 = Asciz	(Ljava/lang/String;)[Ljava/lang/String;;
+const #647 = String	#648;	//  ORFetchTaskPropery.PartitionSchema should be <PartitionSchemaName;Value>
+const #648 = Asciz	ORFetchTaskPropery.PartitionSchema should be <PartitionSchemaName;Value>;
+const #649 = Method	#158.#650;	//  java/lang/Integer.parseInt:(Ljava/lang/String;)I
+const #650 = NameAndType	#651:#652;//  parseInt:(Ljava/lang/String;)I
+const #651 = Asciz	parseInt;
+const #652 = Asciz	(Ljava/lang/String;)I;
+const #653 = Field	#1.#654;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.partitionModRange:I
+const #654 = NameAndType	#79:#80;//  partitionModRange:I
+const #655 = Asciz	temp;
+const #656 = Asciz	[Ljava/lang/String;;
+const #657 = class	#656;	//  "[Ljava/lang/String;"
+const #658 = Asciz	()Ljava/util/Map<Ljava/lang/Integer;Ljava/lang/String;>;;
+const #659 = String	#660;	//  select ctr from Country ctr
+const #660 = Asciz	select ctr from Country ctr;
+const #661 = Method	#662.#664;	//  com/azure/spark/database/hibernate/util/HibernateSession.query:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/util/List;
+const #662 = class	#663;	//  com/azure/spark/database/hibernate/util/HibernateSession
+const #663 = Asciz	com/azure/spark/database/hibernate/util/HibernateSession;
+const #664 = NameAndType	#665:#666;//  query:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/util/List;
+const #665 = Asciz	query;
+const #666 = Asciz	(Ljava/lang/String;[Ljava/lang/Object;)Ljava/util/List;;
+const #667 = InterfaceMethod	#581.#668;	//  com/azure/spark/database/hibernate/mappings/reference/Country.getCtrId:()I
+const #668 = NameAndType	#669:#162;//  getCtrId:()I
+const #669 = Asciz	getCtrId;
+const #670 = InterfaceMethod	#581.#671;	//  com/azure/spark/database/hibernate/mappings/reference/Country.getCtrIsoCd:()Ljava/lang/String;
+const #671 = NameAndType	#672:#481;//  getCtrIsoCd:()Ljava/lang/String;
+const #672 = Asciz	getCtrIsoCd;
+const #673 = String	#674;	//  Unable to load Country Id-Country Code Map.
+const #674 = Asciz	Unable to load Country Id-Country Code Map.;
+const #675 = Asciz	countries;
+const #676 = Asciz	ctr;
+const #677 = Asciz	Lcom/azure/spark/database/hibernate/mappings/reference/Country;;
+const #678 = Asciz	Ljava/util/List<Lcom/azure/spark/database/hibernate/mappings/reference/Country;>;;
+const #679 = class	#680;	//  java/util/HashSet
+const #680 = Asciz	java/util/HashSet;
+const #681 = Method	#679.#104;	//  java/util/HashSet."<init>":()V
+const #682 = Field	#1.#683;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.orProcessorInfo:Lcom/subex/interconnect/sitespecific/telia/database/hibernate/mappings/reference/OrProcessorInfo;
+const #683 = NameAndType	#48:#49;//  orProcessorInfo:Lcom/subex/interconnect/sitespecific/telia/database/hibernate/mappings/reference/OrProcessorInfo;
+const #684 = InterfaceMethod	#685.#687;	//  com/subex/interconnect/sitespecific/telia/database/hibernate/mappings/reference/OrProcessorInfo.getOrpProcessingType:()Ljava/lang/String;
+const #685 = class	#686;	//  com/subex/interconnect/sitespecific/telia/database/hibernate/mappings/reference/OrProcessorInfo
+const #686 = Asciz	com/subex/interconnect/sitespecific/telia/database/hibernate/mappings/reference/OrProcessorInfo;
+const #687 = NameAndType	#688:#481;//  getOrpProcessingType:()Ljava/lang/String;
+const #688 = Asciz	getOrpProcessingType;
+const #689 = String	#690;	//  Full
+const #690 = Asciz	Full;
+const #691 = Method	#425.#692;	//  java/lang/String.equalsIgnoreCase:(Ljava/lang/String;)Z
+const #692 = NameAndType	#693:#694;//  equalsIgnoreCase:(Ljava/lang/String;)Z
+const #693 = Asciz	equalsIgnoreCase;
+const #694 = Asciz	(Ljava/lang/String;)Z;
+const #695 = InterfaceMethod	#685.#696;	//  com/subex/interconnect/sitespecific/telia/database/hibernate/mappings/reference/OrProcessorInfo.getOrpPreviousTable:()Ljava/lang/String;
+const #696 = NameAndType	#697:#481;//  getOrpPreviousTable:()Ljava/lang/String;
+const #697 = Asciz	getOrpPreviousTable;
+const #698 = String	#699;	//  select CARRIER_AGREEMENT_ID from AA_
+const #699 = Asciz	select CARRIER_AGREEMENT_ID from AA_;
+const #700 = String	#701;	//   where AUA_STATUS = '
+const #701 = Asciz	 where AUA_STATUS = ';
+const #702 = String	#703;	//  Success
+const #703 = Asciz	Success;
+const #704 = String	#705;	//  '
+const #705 = Asciz	';
+const #706 = Method	#662.#707;	//  com/azure/spark/database/hibernate/util/HibernateSession.getDataSource:()Lcom/azure/spark/database/datasource/DataSource;
+const #707 = NameAndType	#708:#709;//  getDataSource:()Lcom/azure/spark/database/datasource/DataSource;
+const #708 = Asciz	getDataSource;
+const #709 = Asciz	()Lcom/azure/spark/database/datasource/DataSource;;
+const #710 = InterfaceMethod	#711.#713;	//  com/azure/spark/database/datasource/DataSource.getConnection:()Ljava/sql/Connection;
+const #711 = class	#712;	//  com/azure/spark/database/datasource/DataSource
+const #712 = Asciz	com/azure/spark/database/datasource/DataSource;
+const #713 = NameAndType	#714:#715;//  getConnection:()Ljava/sql/Connection;
+const #714 = Asciz	getConnection;
+const #715 = Asciz	()Ljava/sql/Connection;;
+const #716 = InterfaceMethod	#717.#719;	//  java/sql/Connection.prepareStatement:(Ljava/lang/String;)Ljava/sql/PreparedStatement;
+const #717 = class	#718;	//  java/sql/Connection
+const #718 = Asciz	java/sql/Connection;
+const #719 = NameAndType	#720:#721;//  prepareStatement:(Ljava/lang/String;)Ljava/sql/PreparedStatement;
+const #720 = Asciz	prepareStatement;
+const #721 = Asciz	(Ljava/lang/String;)Ljava/sql/PreparedStatement;;
+const #722 = String	#723;	//  Unable to create statement for the previous Aggrement Audit table
+const #723 = Asciz	Unable to create statement for the previous Aggrement Audit table;
+const #724 = InterfaceMethod	#725.#727;	//  java/sql/PreparedStatement.executeQuery:()Ljava/sql/ResultSet;
+const #725 = class	#726;	//  java/sql/PreparedStatement
+const #726 = Asciz	java/sql/PreparedStatement;
+const #727 = NameAndType	#728:#729;//  executeQuery:()Ljava/sql/ResultSet;
+const #728 = Asciz	executeQuery;
+const #729 = Asciz	()Ljava/sql/ResultSet;;
+const #730 = String	#731;	//  Unable to execute previous Aggrement Audit table
+const #731 = Asciz	Unable to execute previous Aggrement Audit table;
+const #732 = InterfaceMethod	#733.#735;	//  java/sql/ResultSet.getLong:(I)J
+const #733 = class	#734;	//  java/sql/ResultSet
+const #734 = Asciz	java/sql/ResultSet;
+const #735 = NameAndType	#736:#737;//  getLong:(I)J
+const #736 = Asciz	getLong;
+const #737 = Asciz	(I)J;
+const #738 = Method	#739.#741;	//  java/lang/Long.valueOf:(J)Ljava/lang/Long;
+const #739 = class	#740;	//  java/lang/Long
+const #740 = Asciz	java/lang/Long;
+const #741 = NameAndType	#432:#742;//  valueOf:(J)Ljava/lang/Long;
+const #742 = Asciz	(J)Ljava/lang/Long;;
+const #743 = InterfaceMethod	#423.#319;	//  java/util/Set.add:(Ljava/lang/Object;)Z
+const #744 = InterfaceMethod	#733.#745;	//  java/sql/ResultSet.next:()Z
+const #745 = NameAndType	#379:#150;//  next:()Z
+const #746 = String	#747;	//  Unable to identify the processing type.
+const #747 = Asciz	Unable to identify the processing type.;
+const #748 = class	#749;	//  java/sql/SQLException
+const #749 = Asciz	java/sql/SQLException;
+const #750 = Asciz	previousStagingTableSuffix;
+const #751 = Asciz	rs;
+const #752 = Asciz	Ljava/sql/ResultSet;;
+const #753 = Asciz	dataSource;
+const #754 = Asciz	Lcom/azure/spark/database/datasource/DataSource;;
+const #755 = Asciz	conn;
+const #756 = Asciz	Ljava/sql/Connection;;
+const #757 = Asciz	ps;
+const #758 = Asciz	Ljava/sql/PreparedStatement;;
+const #759 = Asciz	Ljava/sql/SQLException;;
+const #760 = Asciz	carrierAgreementId;
+const #761 = Asciz	Ljava/lang/Long;;
+const #762 = String	#763;	//  SELECT snapshot_isolation_state_desc from sys.databases where name = ?
+const #763 = Asciz	SELECT snapshot_isolation_state_desc from sys.databases where name = ?;
+const #764 = Method	#662.#765;	//  com/azure/spark/database/hibernate/util/HibernateSession.getConfiguration:()Lcom/azure/spark/database/hibernate/util/HibernateConfiguration;
+const #765 = NameAndType	#766:#767;//  getConfiguration:()Lcom/azure/spark/database/hibernate/util/HibernateConfiguration;
+const #766 = Asciz	getConfiguration;
+const #767 = Asciz	()Lcom/azure/spark/database/hibernate/util/HibernateConfiguration;;
+const #768 = Method	#769.#771;	//  com/azure/spark/database/hibernate/util/HibernateConfiguration.getProperties:()Ljava/util/Properties;
+const #769 = class	#770;	//  com/azure/spark/database/hibernate/util/HibernateConfiguration
+const #770 = Asciz	com/azure/spark/database/hibernate/util/HibernateConfiguration;
+const #771 = NameAndType	#772:#773;//  getProperties:()Ljava/util/Properties;
+const #772 = Asciz	getProperties;
+const #773 = Asciz	()Ljava/util/Properties;;
+const #774 = String	#775;	//  spark.database
+const #775 = Asciz	spark.database;
+const #776 = Method	#777.#779;	//  java/util/Properties.getProperty:(Ljava/lang/String;)Ljava/lang/String;
+const #777 = class	#778;	//  java/util/Properties
+const #778 = Asciz	java/util/Properties;
+const #779 = NameAndType	#780:#781;//  getProperty:(Ljava/lang/String;)Ljava/lang/String;
+const #780 = Asciz	getProperty;
+const #781 = Asciz	(Ljava/lang/String;)Ljava/lang/String;;
+const #782 = InterfaceMethod	#725.#783;	//  java/sql/PreparedStatement.setString:(ILjava/lang/String;)V
+const #783 = NameAndType	#784:#785;//  setString:(ILjava/lang/String;)V
+const #784 = Asciz	setString;
+const #785 = Asciz	(ILjava/lang/String;)V;
+const #786 = String	#787;	//  snapshot_isolation_state_desc
+const #787 = Asciz	snapshot_isolation_state_desc;
+const #788 = InterfaceMethod	#733.#789;	//  java/sql/ResultSet.getString:(Ljava/lang/String;)Ljava/lang/String;
+const #789 = NameAndType	#790:#781;//  getString:(Ljava/lang/String;)Ljava/lang/String;
+const #790 = Asciz	getString;
+const #791 = String	#792;	//  ON
+const #792 = Asciz	ON;
+const #793 = Method	#425.#794;	//  java/lang/String.equals:(Ljava/lang/Object;)Z
+const #794 = NameAndType	#795:#321;//  equals:(Ljava/lang/Object;)Z
+const #795 = Asciz	equals;
+const #796 = Method	#797.#799;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/util/ResourceCloser.close:([Ljava/sql/ResultSet;)V
+const #797 = class	#798;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/util/ResourceCloser
+const #798 = Asciz	com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/util/ResourceCloser;
+const #799 = NameAndType	#800:#801;//  close:([Ljava/sql/ResultSet;)V
+const #800 = Asciz	close;
+const #801 = Asciz	([Ljava/sql/ResultSet;)V;
+const #802 = class	#803;	//  java/sql/Statement
+const #803 = Asciz	java/sql/Statement;
+const #804 = Method	#797.#805;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/util/ResourceCloser.close:([Ljava/sql/Statement;)V
+const #805 = NameAndType	#800:#806;//  close:([Ljava/sql/Statement;)V
+const #806 = Asciz	([Ljava/sql/Statement;)V;
+const #807 = Method	#797.#808;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/util/ResourceCloser.close:([Ljava/sql/Connection;)V
+const #808 = NameAndType	#800:#809;//  close:([Ljava/sql/Connection;)V
+const #809 = Asciz	([Ljava/sql/Connection;)V;
+const #810 = Asciz	isSnapshot;
+const #811 = Asciz	ds;
+const #812 = Asciz	connection;
+const #813 = Asciz	statement;
+const #814 = Asciz	databaseName;
+const #815 = Asciz	status;
+const #816 = Asciz	setCAPrefixInputProducerComplete;
+const #817 = Asciz	(Z)V;
+const #818 = Asciz	setCARateInputProducerComplete;
+const #819 = Asciz	setFinalInputProducerComplete;
+const #820 = Asciz	isFinalProducerComplete;
+const #821 = Asciz	setDataAccessProducerComplete;
+const #822 = Asciz	getCaPrefixInputQueue;
+const #823 = Asciz	()Ljava/util/concurrent/LinkedBlockingQueue;;
+const #824 = Asciz	()Ljava/util/concurrent/LinkedBlockingQueue<Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/common/data/CarrierAgreementPrefixInput;>;;
+const #825 = Asciz	setCaPrefixInputQueue;
+const #826 = Asciz	(Ljava/util/concurrent/LinkedBlockingQueue;)V;
+const #827 = Asciz	(Ljava/util/concurrent/LinkedBlockingQueue<Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/common/data/CarrierAgreementPrefixInput;>;)V;
+const #828 = Asciz	getCaRateInputQueue;
+const #829 = Asciz	()Ljava/util/concurrent/LinkedBlockingQueue<Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/common/data/CarrierAgreementRateInput;>;;
+const #830 = Asciz	setCaRateInputQueue;
+const #831 = Asciz	(Ljava/util/concurrent/LinkedBlockingQueue<Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/common/data/CarrierAgreementRateInput;>;)V;
+const #832 = Asciz	getCaInputQueue;
+const #833 = Asciz	()Ljava/util/concurrent/LinkedBlockingQueue<Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/common/data/CarrierAgreementInput;>;;
+const #834 = Asciz	setCaInputQueue;
+const #835 = Asciz	(Ljava/util/concurrent/LinkedBlockingQueue<Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/common/data/CarrierAgreementInput;>;)V;
+const #836 = Asciz	getCaDataAccessQueue;
+const #837 = Asciz	()Ljava/util/concurrent/LinkedBlockingQueue<Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/dataaccess/CarrierAgreementDataBlock;>;;
+const #838 = Asciz	setCaDataAccessQueue;
+const #839 = Asciz	(Ljava/util/concurrent/LinkedBlockingQueue<Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/dataaccess/CarrierAgreementDataBlock;>;)V;
+const #840 = Asciz	getOrCarrierAgreementImporterTaskStatus;
+const #841 = Asciz	()Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporterTaskStatus;;
+const #842 = Asciz	setOrCarrierAgreementImporterTaskStatus;
+const #843 = Asciz	(Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporterTaskStatus;)V;
+const #844 = Asciz	getFetchRequest;
+const #845 = Asciz	()Lcom/subex/interconnect/sitespecific/telia/database/hibernate/mappings/reference/OrFetchRequest;;
+const #846 = Field	#1.#847;	//  com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter.fetchRequest:Lcom/subex/interconnect/sitespecific/telia/database/hibernate/mappings/reference/OrFetchRequest;
+const #847 = NameAndType	#46:#47;//  fetchRequest:Lcom/subex/interconnect/sitespecific/telia/database/hibernate/mappings/reference/OrFetchRequest;
+const #848 = Asciz	getOrProcessorInfo;
+const #849 = Asciz	()Lcom/subex/interconnect/sitespecific/telia/database/hibernate/mappings/reference/OrProcessorInfo;;
+const #850 = Asciz	setFetchRequest;
+const #851 = Asciz	(Lcom/subex/interconnect/sitespecific/telia/database/hibernate/mappings/reference/OrFetchRequest;)V;
+const #852 = Asciz	setOrProcessorInfo;
+const #853 = Asciz	(Lcom/subex/interconnect/sitespecific/telia/database/hibernate/mappings/reference/OrProcessorInfo;)V;
+const #854 = Asciz	getOrProcessorTaskProperties;
+const #855 = Asciz	()Lcom/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORProcessorTaskProperties;;
+const #856 = Asciz	setOrProcessorTaskProperties;
+const #857 = Asciz	getTffExternalReferenceTariffCache;
+const #858 = Asciz	()Lcom/azure/interconnect/common/caching/caches/TffExternalReferenceTariffCache;;
+const #859 = Asciz	getTariffClassCache;
+const #860 = Asciz	()Lcom/azure/spark/common/caching/keycache/IdKeyCache;;
+const #861 = Asciz	()Lcom/azure/spark/common/caching/keycache/IdKeyCache<Lcom/azure/spark/database/hibernate/mappings/reference/TariffClass;>;;
+const #862 = Asciz	getTffIdEstIdCache;
+const #863 = Asciz	()Lcom/azure/interconnect/common/caching/caches/TffIdEstIdCache;;
+const #864 = Asciz	getEntityCache;
+const #865 = Asciz	()Lcom/subex/sitespecific/sitehelper/taskcontroller/caches/EntEntityEntityCache;;
+const #866 = Asciz	getExtraArgDfnCache;
+const #867 = Asciz	()Lcom/subex/sitespecific/sitehelper/taskcontroller/caches/EntIdEadNameExtraArgsDfnCache;;
+const #868 = Asciz	getExtraArgInstCache;
+const #869 = Asciz	()Lcom/subex/sitespecific/sitehelper/taskcontroller/caches/EadIdEavObjectidExtraArgsInstCache;;
+const #870 = Asciz	getCtrDialCodeCountriesCache;
+const #871 = Asciz	()Lcom/subex/interconnect/sitespecific/telia/caches/CtrDialCodeCountriesCache;;
+const #872 = Asciz	setCtrDialCodeCountriesCache;
+const #873 = Asciz	(Lcom/subex/interconnect/sitespecific/telia/caches/CtrDialCodeCountriesCache;)V;
+const #874 = Asciz	crtDialCodeCountriesCache;
+const #875 = Asciz	getOrBandTypes;
+const #876 = Asciz	()Ljava/util/List<Lcom/subex/interconnect/sitespecific/telia/database/hibernate/mappings/reference/OrBandType;>;;
+const #877 = Asciz	getDatabaseInfoHolder;
+const #878 = Asciz	()Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/dataaccess/ORInterfaceDatabaseInfoHolder;;
+const #879 = Asciz	getOrProcessorTask;
+const #880 = Asciz	()Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORProcessorTask;;
+const #881 = Asciz	getOatCodeOrAuditTypeCache;
+const #882 = Asciz	()Lcom/subex/interconnect/sitespecific/telia/caches/OatCodeOrAuditTypeCache;;
+const #883 = Asciz	getPartitionModRange;
+const #884 = Asciz	getCountryCache;
+const #885 = Asciz	()Lcom/azure/spark/common/caching/keycache/IdKeyCache<Lcom/azure/spark/database/hibernate/mappings/reference/Country;>;;
+const #886 = Asciz	getCurrencyCache;
+const #887 = Asciz	()Lcom/azure/spark/common/caching/keycache/IdKeyCache<Lcom/azure/spark/database/hibernate/mappings/reference/Currency;>;;
+const #888 = Asciz	getTariffRateNameCache;
+const #889 = Asciz	()Lcom/azure/spark/common/caching/keycache/IdKeyCache<Lcom/azure/spark/database/hibernate/mappings/reference/TariffRateName;>;;
+const #890 = Asciz	getPreviousRunSuccessCASet;
+const #891 = Asciz	()Ljava/util/Set<Ljava/lang/Long;>;;
+const #892 = Asciz	getCtrIdCtrCodeMap;
+const #893 = Asciz	SourceFile;
+const #894 = Asciz	ORCarrierAgreementImporter.java;
+
+{
+public com.subex.interconnect.sitespecific.telia.taskcontroller.tasks.orinterface.processor.ORProcessorTask orProcessorTask;
+
+protected com.subex.interconnect.sitespecific.telia.common.properties.propertygroups.ORProcessorTaskProperties orProcessorTaskProperties;
+
+protected com.subex.interconnect.sitespecific.telia.common.properties.propertygroups.ORFetchTaskProperties orFetchTaskProperties;
+
+protected volatile boolean isCAPrefixInputProducerComplete;
+
+protected volatile boolean isCARateInputProducerComplete;
+
+protected volatile boolean isFinalInputProducerComplete;
+
+protected volatile boolean isDataAccessProducerComplete;
+
+protected java.util.concurrent.LinkedBlockingQueue caPrefixInputQueue;
+  Signature: length = 0x2
+   00 13 
+
+protected java.util.concurrent.LinkedBlockingQueue caRateInputQueue;
+  Signature: length = 0x2
+   00 15 
+
+protected java.util.concurrent.LinkedBlockingQueue caInputQueue;
+  Signature: length = 0x2
+   00 17 
+
+protected java.util.concurrent.LinkedBlockingQueue caDataAccessQueue;
+  Signature: length = 0x2
+   00 19 
+
+protected java.util.concurrent.ExecutorService inputPrefixReaderStageExecutor;
+
+protected java.util.concurrent.ExecutorService inputRateReaderStageExecutor;
+
+protected java.util.concurrent.ExecutorService inputSequencerStageExecutor;
+
+protected java.util.concurrent.ExecutorService processingStageExecutor;
+
+protected java.util.concurrent.ExecutorService dataAccessStageExecutor;
+
+protected java.util.List dataAccessStageFuturesList;
+  Signature: length = 0x2
+   00 22 
+
+protected com.subex.interconnect.sitespecific.telia.taskcontroller.tasks.orinterface.processor.dataaccess.ORInterfaceDatabaseInfoHolder databaseInfoHolder;
+
+protected java.util.Map insertCountByTblName;
+  Signature: length = 0x2
+   00 27 
+
+protected java.util.Map deleteCountByTblName;
+  Signature: length = 0x2
+   00 27 
+
+protected java.util.Map updateCountByTblName;
+  Signature: length = 0x2
+   00 27 
+
+protected com.subex.interconnect.sitespecific.telia.taskcontroller.tasks.orinterface.processor.ORCarrierAgreementImporterTaskStatus orCarrierAgreementImporterTaskStatus;
+
+protected com.subex.interconnect.sitespecific.telia.database.hibernate.mappings.reference.OrFetchRequest fetchRequest;
+
+protected com.subex.interconnect.sitespecific.telia.database.hibernate.mappings.reference.OrProcessorInfo orProcessorInfo;
+
+protected com.azure.interconnect.common.caching.caches.TffExternalReferenceTariffCache tffExternalReferenceTariffCache;
+
+protected com.subex.interconnect.sitespecific.telia.caches.OatCodeOrAuditTypeCache oatCodeOrAuditTypeCache;
+
+protected com.azure.spark.common.caching.keycache.IdKeyCache tariffClassCache;
+  Signature: length = 0x2
+   00 38 
+
+protected com.azure.interconnect.common.caching.caches.TffIdEstIdCache tffIdEstIdCache;
+
+protected com.subex.interconnect.sitespecific.telia.caches.CtrDialCodeCountriesCache ctrDialCodeCountriesCache;
+
+protected com.azure.spark.common.caching.keycache.IdKeyCache countryCache;
+  Signature: length = 0x2
+   00 3E 
+
+protected com.azure.spark.common.caching.keycache.IdKeyCache currencyCache;
+  Signature: length = 0x2
+   00 40 
+
+protected com.azure.spark.common.caching.keycache.IdKeyCache tariffRateNameCache;
+  Signature: length = 0x2
+   00 42 
+
+protected com.subex.sitespecific.sitehelper.taskcontroller.caches.EntEntityEntityCache entityCache;
+
+protected com.subex.sitespecific.sitehelper.taskcontroller.caches.EntIdEadNameExtraArgsDfnCache extraArgDfnCache;
+
+protected com.subex.sitespecific.sitehelper.taskcontroller.caches.EadIdEavObjectidExtraArgsInstCache extraArgInstCache;
+
+protected com.azure.spark.common.caching.keycache.IdKeyCache orBandTypeKeyCache;
+  Signature: length = 0x2
+   00 4A 
+
+protected java.util.List orBandTypes;
+  Signature: length = 0x2
+   00 4C 
+
+protected int partitionModRange;
+
+protected boolean isSnapshotIsolationIgnore;
+
+protected java.util.Set previousRunSuccessCASet;
+  Signature: length = 0x2
+   00 54 
+
+static {};
+  Code:
+   Stack=1, Locals=0, Args_size=0
+   0:	ldc	#1; //class com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter
+   2:	invokestatic	#88; //Method org/apache/commons/logging/LogFactory.getLog:(Ljava/lang/Class;)Lorg/apache/commons/logging/Log;
+   5:	putstatic	#94; //Field log:Lorg/apache/commons/logging/Log;
+   8:	return
+  LineNumberTable: 
+   line 85: 0
+   line 54: 8
+
+
+
+public com.subex.interconnect.sitespecific.telia.taskcontroller.tasks.orinterface.processor.ORCarrierAgreementImporter(com.subex.interconnect.sitespecific.telia.common.properties.propertygroups.ORProcessorTaskProperties)   throws com.subex.interconnect.sitespecific.telia.taskcontroller.tasks.orinterface.processor.common.exception.ORInterfaceException;
+  Exceptions: 
+   throws com.subex.interconnect.sitespecific.telia.taskcontroller.tasks.orinterface.processor.common.exception.ORInterfaceException  Code:
+   Stack=3, Locals=3, Args_size=2
+   0:	aload_0
+   1:	invokespecial	#103; //Method java/lang/Object."<init>":()V
+   4:	aload_0
+   5:	iconst_0
+   6:	putfield	#105; //Field isCAPrefixInputProducerComplete:Z
+   9:	aload_0
+   10:	iconst_0
+   11:	putfield	#107; //Field isCARateInputProducerComplete:Z
+   14:	aload_0
+   15:	iconst_0
+   16:	putfield	#109; //Field isFinalInputProducerComplete:Z
+   19:	aload_0
+   20:	iconst_0
+   21:	putfield	#111; //Field isDataAccessProducerComplete:Z
+   24:	aload_0
+   25:	aconst_null
+   26:	putfield	#113; //Field caPrefixInputQueue:Ljava/util/concurrent/LinkedBlockingQueue;
+   29:	aload_0
+   30:	aconst_null
+   31:	putfield	#115; //Field caRateInputQueue:Ljava/util/concurrent/LinkedBlockingQueue;
+   34:	aload_0
+   35:	aconst_null
+   36:	putfield	#117; //Field caInputQueue:Ljava/util/concurrent/LinkedBlockingQueue;
+   39:	aload_0
+   40:	aconst_null
+   41:	putfield	#119; //Field caDataAccessQueue:Ljava/util/concurrent/LinkedBlockingQueue;
+   44:	aload_0
+   45:	aconst_null
+   46:	putfield	#121; //Field dataAccessStageFuturesList:Ljava/util/List;
+   49:	aload_0
+   50:	aconst_null
+   51:	putfield	#123; //Field databaseInfoHolder:Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/dataaccess/ORInterfaceDatabaseInfoHolder;
+   54:	aload_0
+   55:	aconst_null
+   56:	putfield	#125; //Field tffExternalReferenceTariffCache:Lcom/azure/interconnect/common/caching/caches/TffExternalReferenceTariffCache;
+   59:	aload_0
+   60:	aconst_null
+   61:	putfield	#127; //Field oatCodeOrAuditTypeCache:Lcom/subex/interconnect/sitespecific/telia/caches/OatCodeOrAuditTypeCache;
+   64:	aload_0
+   65:	aconst_null
+   66:	putfield	#129; //Field tariffClassCache:Lcom/azure/spark/common/caching/keycache/IdKeyCache;
+   69:	aload_0
+   70:	aconst_null
+   71:	putfield	#131; //Field tffIdEstIdCache:Lcom/azure/interconnect/common/caching/caches/TffIdEstIdCache;
+   74:	aload_0
+   75:	aconst_null
+   76:	putfield	#133; //Field countryCache:Lcom/azure/spark/common/caching/keycache/IdKeyCache;
+   79:	aload_0
+   80:	aconst_null
+   81:	putfield	#135; //Field currencyCache:Lcom/azure/spark/common/caching/keycache/IdKeyCache;
+   84:	aload_0
+   85:	aconst_null
+   86:	putfield	#137; //Field tariffRateNameCache:Lcom/azure/spark/common/caching/keycache/IdKeyCache;
+   89:	aload_0
+   90:	aconst_null
+   91:	putfield	#139; //Field ctrIdCtrCodeMap:Ljava/util/Map;
+   94:	aload_0
+   95:	iconst_0
+   96:	putfield	#141; //Field isSnapshotIsolationIgnore:Z
+   99:	aload_0
+   100:	aconst_null
+   101:	putfield	#143; //Field previousRunSuccessCASet:Ljava/util/Set;
+   104:	aload_0
+   105:	aload_1
+   106:	putfield	#145; //Field orProcessorTaskProperties:Lcom/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORProcessorTaskProperties;
+   109:	aload_0
+   110:	invokevirtual	#147; //Method checkDBSnapshotStatus:()Z
+   113:	istore_2
+   114:	iload_2
+   115:	ifne	158
+   118:	aload_1
+   119:	invokevirtual	#151; //Method com/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORProcessorTaskProperties.getProcessingStageThreadCount:()Ljava/lang/Integer;
+   122:	invokevirtual	#157; //Method java/lang/Integer.intValue:()I
+   125:	iconst_1
+   126:	if_icmpne	148
+   129:	aload_1
+   130:	invokevirtual	#163; //Method com/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORProcessorTaskProperties.getDataAccessStageThreadCount:()Ljava/lang/Integer;
+   133:	invokevirtual	#157; //Method java/lang/Integer.intValue:()I
+   136:	iconst_1
+   137:	if_icmpne	148
+   140:	aload_0
+   141:	iconst_1
+   142:	putfield	#141; //Field isSnapshotIsolationIgnore:Z
+   145:	goto	158
+   148:	new	#101; //class com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/common/exception/ORInterfaceException
+   151:	dup
+   152:	ldc	#166; //String ORProcessor Properties ProcessingStageThreadCount and DataAccessStageThreadCount should be 1 for ReadCommit isolation
+   154:	invokespecial	#168; //Method com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/common/exception/ORInterfaceException."<init>":(Ljava/lang/String;)V
+   157:	athrow
+   158:	return
+  LineNumberTable: 
+   line 116: 0
+   line 60: 4
+   line 61: 9
+   line 62: 14
+   line 63: 19
+   line 65: 24
+   line 66: 29
+   line 67: 34
+   line 68: 39
+   line 76: 44
+   line 78: 49
+   line 91: 54
+   line 92: 59
+   line 93: 64
+   line 94: 69
+   line 96: 74
+   line 97: 79
+   line 98: 84
+   line 107: 89
+   line 111: 94
+   line 114: 99
+   line 118: 104
+   line 119: 109
+   line 120: 114
+   line 122: 118
+   line 124: 140
+   line 128: 148
+   line 132: 158
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      159      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+   0      159      1    orProcessorTaskProperties       Lcom/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORProcessorTaskProperties;
+   114      45      2    isSnapshotSet       Z
+
+  StackMapTable: number_of_entries = 2
+   frame_type = 255 /* full_frame */
+     offset_delta = 148
+     locals = [ class com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter, class com/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORProcessorTaskProperties, int ]
+     stack = []
+   frame_type = 9 /* same */
+
+
+public void initialize(com.subex.interconnect.sitespecific.telia.taskcontroller.tasks.orinterface.processor.ORProcessorTask, com.azure.spark.database.hibernate.mappings.reference.Task, com.azure.spark.taskcontroller.tasks.TaskComponentListener, com.azure.spark.database.hibernate.mappings.reference.StreamStage, com.subex.interconnect.sitespecific.telia.common.properties.propertygroups.ORFetchTaskProperties)   throws com.subex.interconnect.sitespecific.telia.taskcontroller.tasks.orinterface.processor.common.exception.ORInterfaceException;
+  Exceptions: 
+   throws com.subex.interconnect.sitespecific.telia.taskcontroller.tasks.orinterface.processor.common.exception.ORInterfaceException  Code:
+   Stack=5, Locals=6, Args_size=6
+   0:	aload_0
+   1:	new	#177; //class com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporterTaskStatus
+   4:	dup
+   5:	new	#179; //class java/util/ArrayList
+   8:	dup
+   9:	invokespecial	#181; //Method java/util/ArrayList."<init>":()V
+   12:	iconst_0
+   13:	invokespecial	#182; //Method com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporterTaskStatus."<init>":(Ljava/util/List;Z)V
+   16:	putfield	#185; //Field orCarrierAgreementImporterTaskStatus:Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporterTaskStatus;
+   19:	aload_0
+   20:	aload_1
+   21:	putfield	#187; //Field orProcessorTask:Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORProcessorTask;
+   24:	aload_0
+   25:	new	#189; //class java/util/concurrent/LinkedBlockingQueue
+   28:	dup
+   29:	aload_0
+   30:	getfield	#145; //Field orProcessorTaskProperties:Lcom/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORProcessorTaskProperties;
+   33:	invokevirtual	#191; //Method com/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORProcessorTaskProperties.getInputPrefixQSize:()Ljava/lang/Integer;
+   36:	invokevirtual	#157; //Method java/lang/Integer.intValue:()I
+   39:	invokespecial	#194; //Method java/util/concurrent/LinkedBlockingQueue."<init>":(I)V
+   42:	putfield	#113; //Field caPrefixInputQueue:Ljava/util/concurrent/LinkedBlockingQueue;
+   45:	aload_0
+   46:	new	#189; //class java/util/concurrent/LinkedBlockingQueue
+   49:	dup
+   50:	aload_0
+   51:	getfield	#145; //Field orProcessorTaskProperties:Lcom/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORProcessorTaskProperties;
+   54:	invokevirtual	#197; //Method com/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORProcessorTaskProperties.getInputRateQSize:()Ljava/lang/Integer;
+   57:	invokevirtual	#157; //Method java/lang/Integer.intValue:()I
+   60:	invokespecial	#194; //Method java/util/concurrent/LinkedBlockingQueue."<init>":(I)V
+   63:	putfield	#115; //Field caRateInputQueue:Ljava/util/concurrent/LinkedBlockingQueue;
+   66:	aload_0
+   67:	new	#189; //class java/util/concurrent/LinkedBlockingQueue
+   70:	dup
+   71:	aload_0
+   72:	getfield	#145; //Field orProcessorTaskProperties:Lcom/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORProcessorTaskProperties;
+   75:	invokevirtual	#200; //Method com/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORProcessorTaskProperties.getInputSequenceQSize:()Ljava/lang/Integer;
+   78:	invokevirtual	#157; //Method java/lang/Integer.intValue:()I
+   81:	invokespecial	#194; //Method java/util/concurrent/LinkedBlockingQueue."<init>":(I)V
+   84:	putfield	#117; //Field caInputQueue:Ljava/util/concurrent/LinkedBlockingQueue;
+   87:	aload_0
+   88:	new	#189; //class java/util/concurrent/LinkedBlockingQueue
+   91:	dup
+   92:	invokespecial	#203; //Method java/util/concurrent/LinkedBlockingQueue."<init>":()V
+   95:	putfield	#119; //Field caDataAccessQueue:Ljava/util/concurrent/LinkedBlockingQueue;
+   98:	aload_0
+   99:	aload	5
+   101:	putfield	#204; //Field orFetchTaskProperties:Lcom/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORFetchTaskProperties;
+   104:	aload_0
+   105:	invokespecial	#206; //Method loadCommonCaches:()V
+   108:	aload_0
+   109:	invokespecial	#209; //Method computePartitionModRange:()V
+   112:	return
+  LineNumberTable: 
+   line 136: 0
+   line 137: 19
+   line 138: 24
+   line 139: 45
+   line 140: 66
+   line 141: 87
+   line 142: 98
+   line 143: 104
+   line 144: 108
+   line 145: 112
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      113      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+   0      113      1    orInterfaceTask       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORProcessorTask;
+   0      113      2    task       Lcom/azure/spark/database/hibernate/mappings/reference/Task;
+   0      113      3    listener       Lcom/azure/spark/taskcontroller/tasks/TaskComponentListener;
+   0      113      4    streamStage       Lcom/azure/spark/database/hibernate/mappings/reference/StreamStage;
+   0      113      5    orFetchTaskProperties       Lcom/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORFetchTaskProperties;
+
+
+public void process()   throws com.subex.interconnect.sitespecific.telia.taskcontroller.tasks.orinterface.processor.common.exception.ORInterfaceException;
+  Exceptions: 
+   throws com.subex.interconnect.sitespecific.telia.taskcontroller.tasks.orinterface.processor.common.exception.ORInterfaceException  Code:
+   Stack=3, Locals=3, Args_size=1
+   0:	aload_0
+   1:	invokespecial	#220; //Method preProcessInitialData:()V
+   4:	aload_0
+   5:	invokevirtual	#223; //Method intializeDataAccessStage:()V
+   8:	aload_0
+   9:	invokevirtual	#226; //Method intializeProcessingStage:()V
+   12:	aload_0
+   13:	invokevirtual	#229; //Method startInputReaderStage:()V
+   16:	aload_0
+   17:	getfield	#185; //Field orCarrierAgreementImporterTaskStatus:Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporterTaskStatus;
+   20:	dup
+   21:	astore_1
+   22:	monitorenter
+   23:	aload_0
+   24:	getfield	#185; //Field orCarrierAgreementImporterTaskStatus:Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporterTaskStatus;
+   27:	invokevirtual	#232; //Method com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporterTaskStatus.getTaskFailureThrowableList:()Ljava/util/List;
+   30:	invokeinterface	#236,  1; //InterfaceMethod java/util/List.size:()I
+   35:	ifle	42
+   38:	aload_0
+   39:	invokevirtual	#241; //Method printException:()V
+   42:	aload_1
+   43:	monitorexit
+   44:	goto	50
+   47:	aload_1
+   48:	monitorexit
+   49:	athrow
+   50:	aload_0
+   51:	invokevirtual	#244; //Method inputSequencer:()V
+   54:	aload_0
+   55:	getfield	#185; //Field orCarrierAgreementImporterTaskStatus:Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporterTaskStatus;
+   58:	dup
+   59:	astore_1
+   60:	monitorenter
+   61:	aload_0
+   62:	getfield	#185; //Field orCarrierAgreementImporterTaskStatus:Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporterTaskStatus;
+   65:	invokevirtual	#232; //Method com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporterTaskStatus.getTaskFailureThrowableList:()Ljava/util/List;
+   68:	invokeinterface	#236,  1; //InterfaceMethod java/util/List.size:()I
+   73:	ifne	110
+   76:	aload_0
+   77:	getfield	#185; //Field orCarrierAgreementImporterTaskStatus:Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporterTaskStatus;
+   80:	invokevirtual	#247; //Method com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporterTaskStatus.isTaskCompleted:()Z
+   83:	ifne	110
+   86:	aload_0
+   87:	getfield	#185; //Field orCarrierAgreementImporterTaskStatus:Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporterTaskStatus;
+   90:	invokevirtual	#250; //Method java/lang/Object.wait:()V
+   93:	goto	110
+   96:	astore_2
+   97:	aload_2
+   98:	invokevirtual	#253; //Method java/lang/InterruptedException.printStackTrace:()V
+   101:	new	#101; //class com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/common/exception/ORInterfaceException
+   104:	dup
+   105:	aload_2
+   106:	invokespecial	#258; //Method com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/common/exception/ORInterfaceException."<init>":(Ljava/lang/Throwable;)V
+   109:	athrow
+   110:	getstatic	#94; //Field log:Lorg/apache/commons/logging/Log;
+   113:	ldc_w	#261; //String Main Thread : Got Notification .
+   116:	invokeinterface	#263,  2; //InterfaceMethod org/apache/commons/logging/Log.info:(Ljava/lang/Object;)V
+   121:	aload_0
+   122:	getfield	#185; //Field orCarrierAgreementImporterTaskStatus:Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporterTaskStatus;
+   125:	invokevirtual	#232; //Method com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporterTaskStatus.getTaskFailureThrowableList:()Ljava/util/List;
+   128:	invokeinterface	#236,  1; //InterfaceMethod java/util/List.size:()I
+   133:	ifle	143
+   136:	aload_0
+   137:	invokevirtual	#241; //Method printException:()V
+   140:	goto	164
+   143:	aload_0
+   144:	getfield	#185; //Field orCarrierAgreementImporterTaskStatus:Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporterTaskStatus;
+   147:	invokevirtual	#247; //Method com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporterTaskStatus.isTaskCompleted:()Z
+   150:	ifeq	164
+   153:	getstatic	#94; //Field log:Lorg/apache/commons/logging/Log;
+   156:	ldc_w	#269; //String All the sub tasks are completed successfully
+   159:	invokeinterface	#263,  2; //InterfaceMethod org/apache/commons/logging/Log.info:(Ljava/lang/Object;)V
+   164:	aload_1
+   165:	monitorexit
+   166:	goto	172
+   169:	aload_1
+   170:	monitorexit
+   171:	athrow
+   172:	return
+  Exception table:
+   from   to  target type
+    23    44    47   any
+    47    49    47   any
+    86    93    96   Class java/lang/InterruptedException
+
+    61   166   169   any
+   169   171   169   any
+  LineNumberTable: 
+   line 155: 0
+   line 158: 4
+   line 161: 8
+   line 164: 12
+   line 167: 16
+   line 169: 23
+   line 171: 38
+   line 167: 42
+   line 176: 50
+   line 179: 54
+   line 182: 61
+   line 187: 86
+   line 189: 96
+   line 192: 97
+   line 193: 101
+   line 196: 110
+   line 198: 121
+   line 200: 136
+   line 202: 143
+   line 205: 153
+   line 179: 164
+   line 209: 172
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      173      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+   97      13      2    e       Ljava/lang/InterruptedException;
+
+  StackMapTable: number_of_entries = 9
+   frame_type = 252 /* append */
+     offset_delta = 42
+     locals = [ class com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporterTaskStatus ]
+   frame_type = 68 /* same_locals_1_stack_item */
+     stack = [ class java/lang/Throwable ]
+   frame_type = 250 /* chop */
+     offset_delta = 2
+   frame_type = 255 /* full_frame */
+     offset_delta = 45
+     locals = [ class com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter, class com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporterTaskStatus ]
+     stack = [ class java/lang/InterruptedException ]
+   frame_type = 13 /* same */
+   frame_type = 32 /* same */
+   frame_type = 20 /* same */
+   frame_type = 68 /* same_locals_1_stack_item */
+     stack = [ class java/lang/Throwable ]
+   frame_type = 250 /* chop */
+     offset_delta = 2
+
+
+protected void intializeDataAccessStage()   throws com.subex.interconnect.sitespecific.telia.taskcontroller.tasks.orinterface.processor.common.exception.ORInterfaceException;
+  Exceptions: 
+   throws com.subex.interconnect.sitespecific.telia.taskcontroller.tasks.orinterface.processor.common.exception.ORInterfaceException  Code:
+   Stack=7, Locals=3, Args_size=1
+   0:	aload_0
+   1:	new	#291; //class com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/dataaccess/ORInterfaceDatabaseInfoHolder
+   4:	dup
+   5:	invokespecial	#293; //Method com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/dataaccess/ORInterfaceDatabaseInfoHolder."<init>":()V
+   8:	putfield	#123; //Field databaseInfoHolder:Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/dataaccess/ORInterfaceDatabaseInfoHolder;
+   11:	aload_0
+   12:	new	#179; //class java/util/ArrayList
+   15:	dup
+   16:	invokespecial	#181; //Method java/util/ArrayList."<init>":()V
+   19:	putfield	#121; //Field dataAccessStageFuturesList:Ljava/util/List;
+   22:	aload_0
+   23:	aload_0
+   24:	getfield	#145; //Field orProcessorTaskProperties:Lcom/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORProcessorTaskProperties;
+   27:	invokevirtual	#163; //Method com/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORProcessorTaskProperties.getDataAccessStageThreadCount:()Ljava/lang/Integer;
+   30:	invokevirtual	#157; //Method java/lang/Integer.intValue:()I
+   33:	invokestatic	#294; //Method java/util/concurrent/Executors.newFixedThreadPool:(I)Ljava/util/concurrent/ExecutorService;
+   36:	putfield	#300; //Field dataAccessStageExecutor:Ljava/util/concurrent/ExecutorService;
+   39:	iconst_0
+   40:	istore_1
+   41:	goto	104
+   44:	aload_0
+   45:	getfield	#121; //Field dataAccessStageFuturesList:Ljava/util/List;
+   48:	aload_0
+   49:	getfield	#300; //Field dataAccessStageExecutor:Ljava/util/concurrent/ExecutorService;
+   52:	new	#302; //class com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/dataaccess/ORDataAccessStageCallable
+   55:	dup
+   56:	invokestatic	#304; //Method com/azure/spark/common/user/UserHelper.getCurrentUserId:()Ljava/lang/Integer;
+   59:	invokevirtual	#157; //Method java/lang/Integer.intValue:()I
+   62:	aload_0
+   63:	getfield	#123; //Field databaseInfoHolder:Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/dataaccess/ORInterfaceDatabaseInfoHolder;
+   66:	aload_0
+   67:	invokespecial	#309; //Method com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/dataaccess/ORDataAccessStageCallable."<init>":(ILcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/dataaccess/ORInterfaceDatabaseInfoHolder;Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;)V
+   70:	invokeinterface	#312,  2; //InterfaceMethod java/util/concurrent/ExecutorService.submit:(Ljava/util/concurrent/Callable;)Ljava/util/concurrent/Future;
+   75:	invokeinterface	#318,  2; //InterfaceMethod java/util/List.add:(Ljava/lang/Object;)Z
+   80:	pop
+   81:	goto	101
+   84:	astore_2
+   85:	new	#101; //class com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/common/exception/ORInterfaceException
+   88:	dup
+   89:	ldc_w	#322; //String Unable to create ORDataAccessStageCallable
+   92:	aload_2
+   93:	iconst_0
+   94:	anewarray	#3; //class java/lang/Object
+   97:	invokespecial	#324; //Method com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/common/exception/ORInterfaceException."<init>":(Ljava/lang/String;Ljava/lang/Throwable;[Ljava/lang/Object;)V
+   100:	athrow
+   101:	iinc	1, 1
+   104:	iload_1
+   105:	aload_0
+   106:	getfield	#145; //Field orProcessorTaskProperties:Lcom/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORProcessorTaskProperties;
+   109:	invokevirtual	#163; //Method com/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORProcessorTaskProperties.getDataAccessStageThreadCount:()Ljava/lang/Integer;
+   112:	invokevirtual	#157; //Method java/lang/Integer.intValue:()I
+   115:	if_icmplt	44
+   118:	return
+  Exception table:
+   from   to  target type
+    44    81    84   Class com/azure/spark/common/user/UserHelperException
+
+  LineNumberTable: 
+   line 219: 0
+   line 220: 11
+   line 221: 22
+   line 222: 39
+   line 230: 44
+   line 232: 84
+   line 234: 85
+   line 222: 101
+   line 237: 118
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      119      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+   41      77      1    count       I
+   85      16      2    e       Lcom/azure/spark/common/user/UserHelperException;
+
+  StackMapTable: number_of_entries = 4
+   frame_type = 252 /* append */
+     offset_delta = 44
+     locals = [ int ]
+   frame_type = 103 /* same_locals_1_stack_item */
+     stack = [ class com/azure/spark/common/user/UserHelperException ]
+   frame_type = 16 /* same */
+   frame_type = 2 /* same */
+
+
+protected void intializeProcessingStage();
+  Code:
+   Stack=4, Locals=2, Args_size=1
+   0:	aload_0
+   1:	aload_0
+   2:	getfield	#145; //Field orProcessorTaskProperties:Lcom/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORProcessorTaskProperties;
+   5:	invokevirtual	#151; //Method com/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORProcessorTaskProperties.getProcessingStageThreadCount:()Ljava/lang/Integer;
+   8:	invokevirtual	#157; //Method java/lang/Integer.intValue:()I
+   11:	invokestatic	#294; //Method java/util/concurrent/Executors.newFixedThreadPool:(I)Ljava/util/concurrent/ExecutorService;
+   14:	putfield	#331; //Field processingStageExecutor:Ljava/util/concurrent/ExecutorService;
+   17:	iconst_0
+   18:	istore_1
+   19:	goto	43
+   22:	aload_0
+   23:	getfield	#331; //Field processingStageExecutor:Ljava/util/concurrent/ExecutorService;
+   26:	new	#333; //class com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/process/ProcessingStageCallable
+   29:	dup
+   30:	aload_0
+   31:	invokespecial	#335; //Method com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/process/ProcessingStageCallable."<init>":(Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;)V
+   34:	invokeinterface	#312,  2; //InterfaceMethod java/util/concurrent/ExecutorService.submit:(Ljava/util/concurrent/Callable;)Ljava/util/concurrent/Future;
+   39:	pop
+   40:	iinc	1, 1
+   43:	iload_1
+   44:	aload_0
+   45:	getfield	#145; //Field orProcessorTaskProperties:Lcom/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORProcessorTaskProperties;
+   48:	invokevirtual	#151; //Method com/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORProcessorTaskProperties.getProcessingStageThreadCount:()Ljava/lang/Integer;
+   51:	invokevirtual	#157; //Method java/lang/Integer.intValue:()I
+   54:	if_icmplt	22
+   57:	return
+  LineNumberTable: 
+   line 242: 0
+   line 243: 17
+   line 245: 22
+   line 243: 40
+   line 248: 57
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      58      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+   19      38      1    count       I
+
+  StackMapTable: number_of_entries = 2
+   frame_type = 252 /* append */
+     offset_delta = 22
+     locals = [ int ]
+   frame_type = 20 /* same */
+
+
+protected void startInputReaderStage()   throws com.subex.interconnect.sitespecific.telia.taskcontroller.tasks.orinterface.processor.common.exception.ORInterfaceException;
+  Exceptions: 
+   throws com.subex.interconnect.sitespecific.telia.taskcontroller.tasks.orinterface.processor.common.exception.ORInterfaceException  Code:
+   Stack=3, Locals=3, Args_size=1
+   0:	aload_0
+   1:	invokespecial	#338; //Method loadReaderCommonCaches:()V
+   4:	new	#341; //class com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/reader/PrefixInputReaderCallable
+   7:	dup
+   8:	aload_0
+   9:	invokespecial	#343; //Method com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/reader/PrefixInputReaderCallable."<init>":(Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;)V
+   12:	astore_1
+   13:	aload_0
+   14:	invokestatic	#344; //Method java/util/concurrent/Executors.newSingleThreadExecutor:()Ljava/util/concurrent/ExecutorService;
+   17:	putfield	#348; //Field inputPrefixReaderStageExecutor:Ljava/util/concurrent/ExecutorService;
+   20:	aload_0
+   21:	getfield	#348; //Field inputPrefixReaderStageExecutor:Ljava/util/concurrent/ExecutorService;
+   24:	aload_1
+   25:	invokeinterface	#312,  2; //InterfaceMethod java/util/concurrent/ExecutorService.submit:(Ljava/util/concurrent/Callable;)Ljava/util/concurrent/Future;
+   30:	pop
+   31:	new	#350; //class com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/reader/RateInputReaderCallable
+   34:	dup
+   35:	aload_0
+   36:	invokespecial	#352; //Method com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/reader/RateInputReaderCallable."<init>":(Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;)V
+   39:	astore_2
+   40:	aload_0
+   41:	invokestatic	#344; //Method java/util/concurrent/Executors.newSingleThreadExecutor:()Ljava/util/concurrent/ExecutorService;
+   44:	putfield	#353; //Field inputRateReaderStageExecutor:Ljava/util/concurrent/ExecutorService;
+   47:	aload_0
+   48:	getfield	#353; //Field inputRateReaderStageExecutor:Ljava/util/concurrent/ExecutorService;
+   51:	aload_2
+   52:	invokeinterface	#312,  2; //InterfaceMethod java/util/concurrent/ExecutorService.submit:(Ljava/util/concurrent/Callable;)Ljava/util/concurrent/Future;
+   57:	pop
+   58:	return
+  LineNumberTable: 
+   line 253: 0
+   line 256: 4
+   line 257: 13
+   line 258: 20
+   line 261: 31
+   line 262: 40
+   line 263: 47
+   line 264: 58
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      59      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+   13      46      1    prefixInputReaderCallable       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/reader/PrefixInputReaderCallable;
+   40      19      2    rateInputReaderCallable       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/reader/RateInputReaderCallable;
+
+
+protected void inputSequencer()   throws com.subex.interconnect.sitespecific.telia.taskcontroller.tasks.orinterface.processor.common.exception.ORInterfaceException;
+  Exceptions: 
+   throws com.subex.interconnect.sitespecific.telia.taskcontroller.tasks.orinterface.processor.common.exception.ORInterfaceException  Code:
+   Stack=4, Locals=1, Args_size=1
+   0:	aload_0
+   1:	invokestatic	#344; //Method java/util/concurrent/Executors.newSingleThreadExecutor:()Ljava/util/concurrent/ExecutorService;
+   4:	putfield	#359; //Field inputSequencerStageExecutor:Ljava/util/concurrent/ExecutorService;
+   7:	aload_0
+   8:	getfield	#359; //Field inputSequencerStageExecutor:Ljava/util/concurrent/ExecutorService;
+   11:	new	#361; //class com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/inputsequencer/ORInputSequencerCallable
+   14:	dup
+   15:	aload_0
+   16:	invokespecial	#363; //Method com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/inputsequencer/ORInputSequencerCallable."<init>":(Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;)V
+   19:	invokeinterface	#312,  2; //InterfaceMethod java/util/concurrent/ExecutorService.submit:(Ljava/util/concurrent/Callable;)Ljava/util/concurrent/Future;
+   24:	pop
+   25:	return
+  LineNumberTable: 
+   line 268: 0
+   line 269: 7
+   line 270: 25
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      26      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+
+
+public void finalise();
+  Code:
+   Stack=1, Locals=1, Args_size=1
+   0:	aload_0
+   1:	getfield	#185; //Field orCarrierAgreementImporterTaskStatus:Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporterTaskStatus;
+   4:	invokevirtual	#247; //Method com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporterTaskStatus.isTaskCompleted:()Z
+   7:	ifeq	14
+   10:	aload_0
+   11:	invokespecial	#365; //Method consolidatedDataAccessLog:()V
+   14:	aload_0
+   15:	invokespecial	#368; //Method shutdownExcutors:()V
+   18:	return
+  LineNumberTable: 
+   line 275: 0
+   line 277: 10
+   line 280: 14
+   line 282: 18
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      19      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+
+  StackMapTable: number_of_entries = 1
+   frame_type = 14 /* same */
+
+
+protected void consolidatedLogForAllDataBlocks();
+  Code:
+   Stack=4, Locals=3, Args_size=1
+   0:	aload_0
+   1:	getfield	#404; //Field insertCountByTblName:Ljava/util/Map;
+   4:	invokeinterface	#461,  1; //InterfaceMethod java/util/Map.isEmpty:()Z
+   9:	ifeq	48
+   12:	aload_0
+   13:	getfield	#406; //Field updateCountByTblName:Ljava/util/Map;
+   16:	invokeinterface	#461,  1; //InterfaceMethod java/util/Map.isEmpty:()Z
+   21:	ifeq	48
+   24:	aload_0
+   25:	getfield	#408; //Field deleteCountByTblName:Ljava/util/Map;
+   28:	invokeinterface	#461,  1; //InterfaceMethod java/util/Map.isEmpty:()Z
+   33:	ifeq	48
+   36:	getstatic	#94; //Field log:Lorg/apache/commons/logging/Log;
+   39:	ldc_w	#464; //String No changes in database
+   42:	invokeinterface	#263,  2; //InterfaceMethod org/apache/commons/logging/Log.info:(Ljava/lang/Object;)V
+   47:	return
+   48:	aload_0
+   49:	getfield	#404; //Field insertCountByTblName:Ljava/util/Map;
+   52:	invokeinterface	#416,  1; //InterfaceMethod java/util/Map.keySet:()Ljava/util/Set;
+   57:	invokeinterface	#422,  1; //InterfaceMethod java/util/Set.iterator:()Ljava/util/Iterator;
+   62:	astore_2
+   63:	goto	117
+   66:	aload_2
+   67:	invokeinterface	#375,  1; //InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+   72:	checkcast	#425; //class java/lang/String
+   75:	astore_1
+   76:	getstatic	#94; //Field log:Lorg/apache/commons/logging/Log;
+   79:	new	#466; //class java/lang/StringBuilder
+   82:	dup
+   83:	invokespecial	#468; //Method java/lang/StringBuilder."<init>":()V
+   86:	aload_0
+   87:	getfield	#404; //Field insertCountByTblName:Ljava/util/Map;
+   90:	aload_1
+   91:	invokeinterface	#427,  2; //InterfaceMethod java/util/Map.get:(Ljava/lang/Object;)Ljava/lang/Object;
+   96:	invokevirtual	#469; //Method java/lang/StringBuilder.append:(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+   99:	ldc_w	#473; //String  Row(s) inserted in the table 
+   102:	invokevirtual	#475; //Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+   105:	aload_1
+   106:	invokevirtual	#475; //Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+   109:	invokevirtual	#478; //Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+   112:	invokeinterface	#263,  2; //InterfaceMethod org/apache/commons/logging/Log.info:(Ljava/lang/Object;)V
+   117:	aload_2
+   118:	invokeinterface	#398,  1; //InterfaceMethod java/util/Iterator.hasNext:()Z
+   123:	ifne	66
+   126:	aload_0
+   127:	getfield	#406; //Field updateCountByTblName:Ljava/util/Map;
+   130:	invokeinterface	#416,  1; //InterfaceMethod java/util/Map.keySet:()Ljava/util/Set;
+   135:	invokeinterface	#422,  1; //InterfaceMethod java/util/Set.iterator:()Ljava/util/Iterator;
+   140:	astore_2
+   141:	goto	195
+   144:	aload_2
+   145:	invokeinterface	#375,  1; //InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+   150:	checkcast	#425; //class java/lang/String
+   153:	astore_1
+   154:	getstatic	#94; //Field log:Lorg/apache/commons/logging/Log;
+   157:	new	#466; //class java/lang/StringBuilder
+   160:	dup
+   161:	invokespecial	#468; //Method java/lang/StringBuilder."<init>":()V
+   164:	aload_0
+   165:	getfield	#406; //Field updateCountByTblName:Ljava/util/Map;
+   168:	aload_1
+   169:	invokeinterface	#427,  2; //InterfaceMethod java/util/Map.get:(Ljava/lang/Object;)Ljava/lang/Object;
+   174:	invokevirtual	#469; //Method java/lang/StringBuilder.append:(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+   177:	ldc_w	#482; //String  Row(s) updated in the table 
+   180:	invokevirtual	#475; //Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+   183:	aload_1
+   184:	invokevirtual	#475; //Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+   187:	invokevirtual	#478; //Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+   190:	invokeinterface	#263,  2; //InterfaceMethod org/apache/commons/logging/Log.info:(Ljava/lang/Object;)V
+   195:	aload_2
+   196:	invokeinterface	#398,  1; //InterfaceMethod java/util/Iterator.hasNext:()Z
+   201:	ifne	144
+   204:	aload_0
+   205:	getfield	#408; //Field deleteCountByTblName:Ljava/util/Map;
+   208:	invokeinterface	#416,  1; //InterfaceMethod java/util/Map.keySet:()Ljava/util/Set;
+   213:	invokeinterface	#422,  1; //InterfaceMethod java/util/Set.iterator:()Ljava/util/Iterator;
+   218:	astore_2
+   219:	goto	273
+   222:	aload_2
+   223:	invokeinterface	#375,  1; //InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+   228:	checkcast	#425; //class java/lang/String
+   231:	astore_1
+   232:	getstatic	#94; //Field log:Lorg/apache/commons/logging/Log;
+   235:	new	#466; //class java/lang/StringBuilder
+   238:	dup
+   239:	invokespecial	#468; //Method java/lang/StringBuilder."<init>":()V
+   242:	aload_0
+   243:	getfield	#408; //Field deleteCountByTblName:Ljava/util/Map;
+   246:	aload_1
+   247:	invokeinterface	#427,  2; //InterfaceMethod java/util/Map.get:(Ljava/lang/Object;)Ljava/lang/Object;
+   252:	invokevirtual	#469; //Method java/lang/StringBuilder.append:(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+   255:	ldc_w	#484; //String  Row(s) deleted in the table 
+   258:	invokevirtual	#475; //Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+   261:	aload_1
+   262:	invokevirtual	#475; //Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+   265:	invokevirtual	#478; //Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+   268:	invokeinterface	#263,  2; //InterfaceMethod org/apache/commons/logging/Log.info:(Ljava/lang/Object;)V
+   273:	aload_2
+   274:	invokeinterface	#398,  1; //InterfaceMethod java/util/Iterator.hasNext:()Z
+   279:	ifne	222
+   282:	return
+  LineNumberTable: 
+   line 349: 0
+   line 351: 36
+   line 352: 47
+   line 355: 48
+   line 357: 76
+   line 355: 117
+   line 359: 126
+   line 361: 154
+   line 359: 195
+   line 363: 204
+   line 365: 232
+   line 363: 273
+   line 367: 282
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      283      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+   76      41      1    tableName       Ljava/lang/String;
+   154      41      1    tableName       Ljava/lang/String;
+   232      41      1    tableName       Ljava/lang/String;
+
+  StackMapTable: number_of_entries = 7
+   frame_type = 48 /* same */
+   frame_type = 255 /* full_frame */
+     offset_delta = 17
+     locals = [ class com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter, bogus, class java/util/Iterator ]
+     stack = []
+   frame_type = 50 /* same */
+   frame_type = 26 /* same */
+   frame_type = 50 /* same */
+   frame_type = 26 /* same */
+   frame_type = 50 /* same */
+
+
+protected void printException()   throws com.subex.interconnect.sitespecific.telia.taskcontroller.tasks.orinterface.processor.common.exception.ORInterfaceException;
+  Exceptions: 
+   throws com.subex.interconnect.sitespecific.telia.taskcontroller.tasks.orinterface.processor.common.exception.ORInterfaceException  Code:
+   Stack=4, Locals=7, Args_size=1
+   0:	aload_0
+   1:	getfield	#185; //Field orCarrierAgreementImporterTaskStatus:Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporterTaskStatus;
+   4:	invokevirtual	#232; //Method com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporterTaskStatus.getTaskFailureThrowableList:()Ljava/util/List;
+   7:	invokeinterface	#371,  1; //InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+   12:	astore_2
+   13:	goto	70
+   16:	aload_2
+   17:	invokeinterface	#375,  1; //InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+   22:	checkcast	#273; //class java/lang/Throwable
+   25:	astore_1
+   26:	aload_1
+   27:	invokevirtual	#487; //Method java/lang/Throwable.getStackTrace:()[Ljava/lang/StackTraceElement;
+   30:	dup
+   31:	astore	6
+   33:	arraylength
+   34:	istore	5
+   36:	iconst_0
+   37:	istore	4
+   39:	goto	63
+   42:	aload	6
+   44:	iload	4
+   46:	aaload
+   47:	astore_3
+   48:	getstatic	#94; //Field log:Lorg/apache/commons/logging/Log;
+   51:	aload_3
+   52:	invokevirtual	#491; //Method java/lang/StackTraceElement.toString:()Ljava/lang/String;
+   55:	invokeinterface	#263,  2; //InterfaceMethod org/apache/commons/logging/Log.info:(Ljava/lang/Object;)V
+   60:	iinc	4, 1
+   63:	iload	4
+   65:	iload	5
+   67:	if_icmplt	42
+   70:	aload_2
+   71:	invokeinterface	#398,  1; //InterfaceMethod java/util/Iterator.hasNext:()Z
+   76:	ifne	16
+   79:	new	#101; //class com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/common/exception/ORInterfaceException
+   82:	dup
+   83:	aload_0
+   84:	getfield	#185; //Field orCarrierAgreementImporterTaskStatus:Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporterTaskStatus;
+   87:	invokevirtual	#232; //Method com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporterTaskStatus.getTaskFailureThrowableList:()Ljava/util/List;
+   90:	iconst_0
+   91:	invokeinterface	#494,  2; //InterfaceMethod java/util/List.get:(I)Ljava/lang/Object;
+   96:	checkcast	#273; //class java/lang/Throwable
+   99:	invokespecial	#258; //Method com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/common/exception/ORInterfaceException."<init>":(Ljava/lang/Throwable;)V
+   102:	athrow
+  LineNumberTable: 
+   line 372: 0
+   line 374: 26
+   line 376: 48
+   line 374: 60
+   line 372: 70
+   line 380: 79
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      103      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+   26      44      1    t       Ljava/lang/Throwable;
+   48      12      3    ste       Ljava/lang/StackTraceElement;
+
+  StackMapTable: number_of_entries = 4
+   frame_type = 255 /* full_frame */
+     offset_delta = 16
+     locals = [ class com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter, bogus, class java/util/Iterator ]
+     stack = []
+   frame_type = 255 /* full_frame */
+     offset_delta = 25
+     locals = [ class com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter, class java/lang/Throwable, class java/util/Iterator, bogus, int, int, class "[Ljava/lang/StackTraceElement;" ]
+     stack = []
+   frame_type = 20 /* same */
+   frame_type = 255 /* full_frame */
+     offset_delta = 6
+     locals = [ class com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter, bogus, class java/util/Iterator ]
+     stack = []
+
+
+public boolean checkDBSnapshotStatus()   throws com.subex.interconnect.sitespecific.telia.taskcontroller.tasks.orinterface.processor.common.exception.ORInterfaceException;
+  Exceptions: 
+   throws com.subex.interconnect.sitespecific.telia.taskcontroller.tasks.orinterface.processor.common.exception.ORInterfaceException  Code:
+   Stack=4, Locals=10, Args_size=1
+   0:	iconst_0
+   1:	istore_1
+   2:	ldc_w	#762; //String SELECT snapshot_isolation_state_desc from sys.databases where name = ?
+   5:	astore_2
+   6:	invokestatic	#706; //Method com/azure/spark/database/hibernate/util/HibernateSession.getDataSource:()Lcom/azure/spark/database/datasource/DataSource;
+   9:	astore_3
+   10:	aconst_null
+   11:	astore	4
+   13:	aconst_null
+   14:	astore	5
+   16:	aconst_null
+   17:	astore	6
+   19:	aload_3
+   20:	invokeinterface	#710,  1; //InterfaceMethod com/azure/spark/database/datasource/DataSource.getConnection:()Ljava/sql/Connection;
+   25:	astore	4
+   27:	invokestatic	#764; //Method com/azure/spark/database/hibernate/util/HibernateSession.getConfiguration:()Lcom/azure/spark/database/hibernate/util/HibernateConfiguration;
+   30:	invokevirtual	#768; //Method com/azure/spark/database/hibernate/util/HibernateConfiguration.getProperties:()Ljava/util/Properties;
+   33:	ldc_w	#774; //String spark.database
+   36:	invokevirtual	#776; //Method java/util/Properties.getProperty:(Ljava/lang/String;)Ljava/lang/String;
+   39:	astore	7
+   41:	aload	4
+   43:	aload_2
+   44:	invokeinterface	#716,  2; //InterfaceMethod java/sql/Connection.prepareStatement:(Ljava/lang/String;)Ljava/sql/PreparedStatement;
+   49:	astore	5
+   51:	aload	5
+   53:	iconst_1
+   54:	aload	7
+   56:	invokeinterface	#782,  3; //InterfaceMethod java/sql/PreparedStatement.setString:(ILjava/lang/String;)V
+   61:	aload	5
+   63:	invokeinterface	#724,  1; //InterfaceMethod java/sql/PreparedStatement.executeQuery:()Ljava/sql/ResultSet;
+   68:	astore	6
+   70:	aload	6
+   72:	invokeinterface	#744,  1; //InterfaceMethod java/sql/ResultSet.next:()Z
+   77:	pop
+   78:	aload	6
+   80:	ldc_w	#786; //String snapshot_isolation_state_desc
+   83:	invokeinterface	#788,  2; //InterfaceMethod java/sql/ResultSet.getString:(Ljava/lang/String;)Ljava/lang/String;
+   88:	astore	8
+   90:	aload	8
+   92:	ldc_w	#791; //String ON
+   95:	invokevirtual	#793; //Method java/lang/String.equals:(Ljava/lang/Object;)Z
+   98:	ifeq	172
+   101:	iconst_1
+   102:	istore_1
+   103:	goto	172
+   106:	astore	7
+   108:	getstatic	#94; //Field log:Lorg/apache/commons/logging/Log;
+   111:	aload	7
+   113:	invokevirtual	#514; //Method java/lang/Throwable.getMessage:()Ljava/lang/String;
+   116:	invokeinterface	#517,  2; //InterfaceMethod org/apache/commons/logging/Log.error:(Ljava/lang/Object;)V
+   121:	new	#101; //class com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/common/exception/ORInterfaceException
+   124:	dup
+   125:	aload	7
+   127:	invokespecial	#258; //Method com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/common/exception/ORInterfaceException."<init>":(Ljava/lang/Throwable;)V
+   130:	athrow
+   131:	astore	9
+   133:	iconst_1
+   134:	anewarray	#733; //class java/sql/ResultSet
+   137:	dup
+   138:	iconst_0
+   139:	aload	6
+   141:	aastore
+   142:	invokestatic	#796; //Method com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/util/ResourceCloser.close:([Ljava/sql/ResultSet;)V
+   145:	iconst_1
+   146:	anewarray	#802; //class java/sql/Statement
+   149:	dup
+   150:	iconst_0
+   151:	aload	5
+   153:	aastore
+   154:	invokestatic	#804; //Method com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/util/ResourceCloser.close:([Ljava/sql/Statement;)V
+   157:	iconst_1
+   158:	anewarray	#717; //class java/sql/Connection
+   161:	dup
+   162:	iconst_0
+   163:	aload	4
+   165:	aastore
+   166:	invokestatic	#807; //Method com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/util/ResourceCloser.close:([Ljava/sql/Connection;)V
+   169:	aload	9
+   171:	athrow
+   172:	iconst_1
+   173:	anewarray	#733; //class java/sql/ResultSet
+   176:	dup
+   177:	iconst_0
+   178:	aload	6
+   180:	aastore
+   181:	invokestatic	#796; //Method com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/util/ResourceCloser.close:([Ljava/sql/ResultSet;)V
+   184:	iconst_1
+   185:	anewarray	#802; //class java/sql/Statement
+   188:	dup
+   189:	iconst_0
+   190:	aload	5
+   192:	aastore
+   193:	invokestatic	#804; //Method com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/util/ResourceCloser.close:([Ljava/sql/Statement;)V
+   196:	iconst_1
+   197:	anewarray	#717; //class java/sql/Connection
+   200:	dup
+   201:	iconst_0
+   202:	aload	4
+   204:	aastore
+   205:	invokestatic	#807; //Method com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/util/ResourceCloser.close:([Ljava/sql/Connection;)V
+   208:	iload_1
+   209:	ireturn
+  Exception table:
+   from   to  target type
+    19   103   106   Class java/lang/Throwable
+
+    19   131   131   any
+  LineNumberTable: 
+   line 603: 0
+   line 604: 2
+   line 605: 6
+   line 606: 10
+   line 607: 13
+   line 608: 16
+   line 611: 19
+   line 615: 27
+   line 617: 41
+   line 618: 51
+   line 619: 61
+   line 620: 70
+   line 621: 78
+   line 622: 90
+   line 624: 101
+   line 627: 106
+   line 629: 108
+   line 630: 121
+   line 633: 131
+   line 634: 139
+   line 635: 151
+   line 636: 163
+   line 638: 169
+   line 633: 172
+   line 634: 178
+   line 635: 190
+   line 636: 202
+   line 639: 208
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      210      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+   2      208      1    isSnapshot       Z
+   6      204      2    query       Ljava/lang/String;
+   10      200      3    ds       Lcom/azure/spark/database/datasource/DataSource;
+   13      197      4    connection       Ljava/sql/Connection;
+   16      194      5    statement       Ljava/sql/PreparedStatement;
+   19      191      6    rs       Ljava/sql/ResultSet;
+   41      65      7    databaseName       Ljava/lang/String;
+   90      16      8    status       Ljava/lang/String;
+   108      23      7    e       Ljava/lang/Throwable;
+
+  StackMapTable: number_of_entries = 4
+   frame_type = 255 /* full_frame */
+     offset_delta = 103
+     locals = [ class com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter, int, class java/lang/String, class com/azure/spark/database/datasource/DataSource, class java/sql/Connection, class java/sql/PreparedStatement, class java/sql/ResultSet, class java/lang/String, class java/lang/String ]
+     stack = []
+   frame_type = 255 /* full_frame */
+     offset_delta = 2
+     locals = [ class com/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter, int, class java/lang/String, class com/azure/spark/database/datasource/DataSource, class java/sql/Connection, class java/sql/PreparedStatement, class java/sql/ResultSet ]
+     stack = [ class java/lang/Throwable ]
+   frame_type = 88 /* same_locals_1_stack_item */
+     stack = [ class java/lang/Throwable ]
+   frame_type = 40 /* same */
+
+
+public boolean isCAPrefixInputProducerComplete();
+  Code:
+   Stack=1, Locals=1, Args_size=1
+   0:	aload_0
+   1:	getfield	#105; //Field isCAPrefixInputProducerComplete:Z
+   4:	ireturn
+  LineNumberTable: 
+   line 645: 0
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      5      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+
+
+public void setCAPrefixInputProducerComplete(boolean);
+  Code:
+   Stack=2, Locals=2, Args_size=2
+   0:	aload_0
+   1:	iload_1
+   2:	putfield	#105; //Field isCAPrefixInputProducerComplete:Z
+   5:	return
+  LineNumberTable: 
+   line 650: 0
+   line 651: 5
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      6      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+   0      6      1    isCAPrefixInputProducerComplete       Z
+
+
+public boolean isCARateInputProducerComplete();
+  Code:
+   Stack=1, Locals=1, Args_size=1
+   0:	aload_0
+   1:	getfield	#107; //Field isCARateInputProducerComplete:Z
+   4:	ireturn
+  LineNumberTable: 
+   line 655: 0
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      5      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+
+
+public void setCARateInputProducerComplete(boolean);
+  Code:
+   Stack=2, Locals=2, Args_size=2
+   0:	aload_0
+   1:	iload_1
+   2:	putfield	#107; //Field isCARateInputProducerComplete:Z
+   5:	return
+  LineNumberTable: 
+   line 660: 0
+   line 661: 5
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      6      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+   0      6      1    isCARateInputProducerComplete       Z
+
+
+public boolean isFinalInputProducerComplete();
+  Code:
+   Stack=1, Locals=1, Args_size=1
+   0:	aload_0
+   1:	getfield	#109; //Field isFinalInputProducerComplete:Z
+   4:	ireturn
+  LineNumberTable: 
+   line 665: 0
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      5      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+
+
+public void setFinalInputProducerComplete(boolean);
+  Code:
+   Stack=2, Locals=2, Args_size=2
+   0:	aload_0
+   1:	iload_1
+   2:	putfield	#109; //Field isFinalInputProducerComplete:Z
+   5:	return
+  LineNumberTable: 
+   line 670: 0
+   line 671: 5
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      6      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+   0      6      1    isFinalProducerComplete       Z
+
+
+public boolean isDataAccessProducerComplete();
+  Code:
+   Stack=1, Locals=1, Args_size=1
+   0:	aload_0
+   1:	getfield	#111; //Field isDataAccessProducerComplete:Z
+   4:	ireturn
+  LineNumberTable: 
+   line 675: 0
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      5      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+
+
+public void setDataAccessProducerComplete(boolean);
+  Code:
+   Stack=2, Locals=2, Args_size=2
+   0:	aload_0
+   1:	iload_1
+   2:	putfield	#111; //Field isDataAccessProducerComplete:Z
+   5:	return
+  LineNumberTable: 
+   line 680: 0
+   line 681: 5
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      6      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+   0      6      1    isDataAccessProducerComplete       Z
+
+
+public java.util.concurrent.LinkedBlockingQueue getCaPrefixInputQueue();
+  Signature: length = 0x2
+   03 38 
+  Code:
+   Stack=1, Locals=1, Args_size=1
+   0:	aload_0
+   1:	getfield	#113; //Field caPrefixInputQueue:Ljava/util/concurrent/LinkedBlockingQueue;
+   4:	areturn
+  LineNumberTable: 
+   line 685: 0
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      5      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+
+
+public void setCaPrefixInputQueue(java.util.concurrent.LinkedBlockingQueue);
+  Signature: length = 0x2
+   03 3B 
+  Code:
+   Stack=2, Locals=2, Args_size=2
+   0:	aload_0
+   1:	aload_1
+   2:	putfield	#113; //Field caPrefixInputQueue:Ljava/util/concurrent/LinkedBlockingQueue;
+   5:	return
+  LineNumberTable: 
+   line 690: 0
+   line 691: 5
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      6      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+   0      6      1    caPrefixInputQueue       Ljava/util/concurrent/LinkedBlockingQueue;
+
+  LocalVariableTypeTable: length = 0xC
+   00 01 00 00 00 06 00 10 00 13 00 01 
+
+public java.util.concurrent.LinkedBlockingQueue getCaRateInputQueue();
+  Signature: length = 0x2
+   03 3D 
+  Code:
+   Stack=1, Locals=1, Args_size=1
+   0:	aload_0
+   1:	getfield	#115; //Field caRateInputQueue:Ljava/util/concurrent/LinkedBlockingQueue;
+   4:	areturn
+  LineNumberTable: 
+   line 695: 0
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      5      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+
+
+public void setCaRateInputQueue(java.util.concurrent.LinkedBlockingQueue);
+  Signature: length = 0x2
+   03 3F 
+  Code:
+   Stack=2, Locals=2, Args_size=2
+   0:	aload_0
+   1:	aload_1
+   2:	putfield	#115; //Field caRateInputQueue:Ljava/util/concurrent/LinkedBlockingQueue;
+   5:	return
+  LineNumberTable: 
+   line 700: 0
+   line 701: 5
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      6      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+   0      6      1    caRateInputQueue       Ljava/util/concurrent/LinkedBlockingQueue;
+
+  LocalVariableTypeTable: length = 0xC
+   00 01 00 00 00 06 00 14 00 15 00 01 
+
+public java.util.concurrent.LinkedBlockingQueue getCaInputQueue();
+  Signature: length = 0x2
+   03 41 
+  Code:
+   Stack=1, Locals=1, Args_size=1
+   0:	aload_0
+   1:	getfield	#117; //Field caInputQueue:Ljava/util/concurrent/LinkedBlockingQueue;
+   4:	areturn
+  LineNumberTable: 
+   line 705: 0
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      5      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+
+
+public void setCaInputQueue(java.util.concurrent.LinkedBlockingQueue);
+  Signature: length = 0x2
+   03 43 
+  Code:
+   Stack=2, Locals=2, Args_size=2
+   0:	aload_0
+   1:	aload_1
+   2:	putfield	#117; //Field caInputQueue:Ljava/util/concurrent/LinkedBlockingQueue;
+   5:	return
+  LineNumberTable: 
+   line 710: 0
+   line 711: 5
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      6      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+   0      6      1    caInputQueue       Ljava/util/concurrent/LinkedBlockingQueue;
+
+  LocalVariableTypeTable: length = 0xC
+   00 01 00 00 00 06 00 16 00 17 00 01 
+
+public java.util.concurrent.LinkedBlockingQueue getCaDataAccessQueue();
+  Signature: length = 0x2
+   03 45 
+  Code:
+   Stack=1, Locals=1, Args_size=1
+   0:	aload_0
+   1:	getfield	#119; //Field caDataAccessQueue:Ljava/util/concurrent/LinkedBlockingQueue;
+   4:	areturn
+  LineNumberTable: 
+   line 715: 0
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      5      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+
+
+public void setCaDataAccessQueue(java.util.concurrent.LinkedBlockingQueue);
+  Signature: length = 0x2
+   03 47 
+  Code:
+   Stack=2, Locals=2, Args_size=2
+   0:	aload_0
+   1:	aload_1
+   2:	putfield	#119; //Field caDataAccessQueue:Ljava/util/concurrent/LinkedBlockingQueue;
+   5:	return
+  LineNumberTable: 
+   line 720: 0
+   line 721: 5
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      6      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+   0      6      1    caDataAccessQueue       Ljava/util/concurrent/LinkedBlockingQueue;
+
+  LocalVariableTypeTable: length = 0xC
+   00 01 00 00 00 06 00 18 00 19 00 01 
+
+public com.subex.interconnect.sitespecific.telia.taskcontroller.tasks.orinterface.processor.ORCarrierAgreementImporterTaskStatus getOrCarrierAgreementImporterTaskStatus();
+  Code:
+   Stack=1, Locals=1, Args_size=1
+   0:	aload_0
+   1:	getfield	#185; //Field orCarrierAgreementImporterTaskStatus:Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporterTaskStatus;
+   4:	areturn
+  LineNumberTable: 
+   line 725: 0
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      5      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+
+
+public void setOrCarrierAgreementImporterTaskStatus(com.subex.interconnect.sitespecific.telia.taskcontroller.tasks.orinterface.processor.ORCarrierAgreementImporterTaskStatus);
+  Code:
+   Stack=2, Locals=2, Args_size=2
+   0:	aload_0
+   1:	aload_1
+   2:	putfield	#185; //Field orCarrierAgreementImporterTaskStatus:Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporterTaskStatus;
+   5:	return
+  LineNumberTable: 
+   line 730: 0
+   line 731: 5
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      6      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+   0      6      1    orCarrierAgreementImporterTaskStatus       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporterTaskStatus;
+
+
+public com.subex.interconnect.sitespecific.telia.database.hibernate.mappings.reference.OrFetchRequest getFetchRequest();
+  Code:
+   Stack=1, Locals=1, Args_size=1
+   0:	aload_0
+   1:	getfield	#846; //Field fetchRequest:Lcom/subex/interconnect/sitespecific/telia/database/hibernate/mappings/reference/OrFetchRequest;
+   4:	areturn
+  LineNumberTable: 
+   line 735: 0
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      5      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+
+
+public com.subex.interconnect.sitespecific.telia.database.hibernate.mappings.reference.OrProcessorInfo getOrProcessorInfo();
+  Code:
+   Stack=1, Locals=1, Args_size=1
+   0:	aload_0
+   1:	getfield	#682; //Field orProcessorInfo:Lcom/subex/interconnect/sitespecific/telia/database/hibernate/mappings/reference/OrProcessorInfo;
+   4:	areturn
+  LineNumberTable: 
+   line 740: 0
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      5      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+
+
+public void setFetchRequest(com.subex.interconnect.sitespecific.telia.database.hibernate.mappings.reference.OrFetchRequest);
+  Code:
+   Stack=2, Locals=2, Args_size=2
+   0:	aload_0
+   1:	aload_1
+   2:	putfield	#846; //Field fetchRequest:Lcom/subex/interconnect/sitespecific/telia/database/hibernate/mappings/reference/OrFetchRequest;
+   5:	return
+  LineNumberTable: 
+   line 745: 0
+   line 746: 5
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      6      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+   0      6      1    fetchRequest       Lcom/subex/interconnect/sitespecific/telia/database/hibernate/mappings/reference/OrFetchRequest;
+
+
+public void setOrProcessorInfo(com.subex.interconnect.sitespecific.telia.database.hibernate.mappings.reference.OrProcessorInfo);
+  Code:
+   Stack=2, Locals=2, Args_size=2
+   0:	aload_0
+   1:	aload_1
+   2:	putfield	#682; //Field orProcessorInfo:Lcom/subex/interconnect/sitespecific/telia/database/hibernate/mappings/reference/OrProcessorInfo;
+   5:	return
+  LineNumberTable: 
+   line 750: 0
+   line 751: 5
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      6      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+   0      6      1    orProcessorInfo       Lcom/subex/interconnect/sitespecific/telia/database/hibernate/mappings/reference/OrProcessorInfo;
+
+
+public com.subex.interconnect.sitespecific.telia.common.properties.propertygroups.ORProcessorTaskProperties getOrProcessorTaskProperties();
+  Code:
+   Stack=1, Locals=1, Args_size=1
+   0:	aload_0
+   1:	getfield	#145; //Field orProcessorTaskProperties:Lcom/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORProcessorTaskProperties;
+   4:	areturn
+  LineNumberTable: 
+   line 755: 0
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      5      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+
+
+public void setOrProcessorTaskProperties(com.subex.interconnect.sitespecific.telia.common.properties.propertygroups.ORProcessorTaskProperties);
+  Code:
+   Stack=2, Locals=2, Args_size=2
+   0:	aload_0
+   1:	aload_1
+   2:	putfield	#145; //Field orProcessorTaskProperties:Lcom/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORProcessorTaskProperties;
+   5:	return
+  LineNumberTable: 
+   line 760: 0
+   line 761: 5
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      6      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+   0      6      1    orProcessorTaskProperties       Lcom/subex/interconnect/sitespecific/telia/common/properties/propertygroups/ORProcessorTaskProperties;
+
+
+public com.azure.interconnect.common.caching.caches.TffExternalReferenceTariffCache getTffExternalReferenceTariffCache();
+  Code:
+   Stack=1, Locals=1, Args_size=1
+   0:	aload_0
+   1:	getfield	#125; //Field tffExternalReferenceTariffCache:Lcom/azure/interconnect/common/caching/caches/TffExternalReferenceTariffCache;
+   4:	areturn
+  LineNumberTable: 
+   line 765: 0
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      5      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+
+
+public com.azure.spark.common.caching.keycache.IdKeyCache getTariffClassCache();
+  Signature: length = 0x2
+   03 5D 
+  Code:
+   Stack=1, Locals=1, Args_size=1
+   0:	aload_0
+   1:	getfield	#129; //Field tariffClassCache:Lcom/azure/spark/common/caching/keycache/IdKeyCache;
+   4:	areturn
+  LineNumberTable: 
+   line 770: 0
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      5      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+
+
+public com.azure.interconnect.common.caching.caches.TffIdEstIdCache getTffIdEstIdCache();
+  Code:
+   Stack=1, Locals=1, Args_size=1
+   0:	aload_0
+   1:	getfield	#131; //Field tffIdEstIdCache:Lcom/azure/interconnect/common/caching/caches/TffIdEstIdCache;
+   4:	areturn
+  LineNumberTable: 
+   line 775: 0
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      5      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+
+
+public com.subex.sitespecific.sitehelper.taskcontroller.caches.EntEntityEntityCache getEntityCache();
+  Code:
+   Stack=1, Locals=1, Args_size=1
+   0:	aload_0
+   1:	getfield	#573; //Field entityCache:Lcom/subex/sitespecific/sitehelper/taskcontroller/caches/EntEntityEntityCache;
+   4:	areturn
+  LineNumberTable: 
+   line 780: 0
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      5      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+
+
+public com.subex.sitespecific.sitehelper.taskcontroller.caches.EntIdEadNameExtraArgsDfnCache getExtraArgDfnCache();
+  Code:
+   Stack=1, Locals=1, Args_size=1
+   0:	aload_0
+   1:	getfield	#561; //Field extraArgDfnCache:Lcom/subex/sitespecific/sitehelper/taskcontroller/caches/EntIdEadNameExtraArgsDfnCache;
+   4:	areturn
+  LineNumberTable: 
+   line 785: 0
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      5      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+
+
+public com.subex.sitespecific.sitehelper.taskcontroller.caches.EadIdEavObjectidExtraArgsInstCache getExtraArgInstCache();
+  Code:
+   Stack=1, Locals=1, Args_size=1
+   0:	aload_0
+   1:	getfield	#567; //Field extraArgInstCache:Lcom/subex/sitespecific/sitehelper/taskcontroller/caches/EadIdEavObjectidExtraArgsInstCache;
+   4:	areturn
+  LineNumberTable: 
+   line 790: 0
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      5      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+
+
+public com.subex.interconnect.sitespecific.telia.caches.CtrDialCodeCountriesCache getCtrDialCodeCountriesCache();
+  Code:
+   Stack=1, Locals=1, Args_size=1
+   0:	aload_0
+   1:	getfield	#583; //Field ctrDialCodeCountriesCache:Lcom/subex/interconnect/sitespecific/telia/caches/CtrDialCodeCountriesCache;
+   4:	areturn
+  LineNumberTable: 
+   line 795: 0
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      5      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+
+
+public void setCtrDialCodeCountriesCache(com.subex.interconnect.sitespecific.telia.caches.CtrDialCodeCountriesCache);
+  Code:
+   Stack=2, Locals=2, Args_size=2
+   0:	aload_0
+   1:	aload_1
+   2:	putfield	#583; //Field ctrDialCodeCountriesCache:Lcom/subex/interconnect/sitespecific/telia/caches/CtrDialCodeCountriesCache;
+   5:	return
+  LineNumberTable: 
+   line 800: 0
+   line 801: 5
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      6      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+   0      6      1    crtDialCodeCountriesCache       Lcom/subex/interconnect/sitespecific/telia/caches/CtrDialCodeCountriesCache;
+
+
+public java.util.List getOrBandTypes();
+  Signature: length = 0x2
+   03 6C 
+  Code:
+   Stack=1, Locals=1, Args_size=1
+   0:	aload_0
+   1:	getfield	#600; //Field orBandTypes:Ljava/util/List;
+   4:	areturn
+  LineNumberTable: 
+   line 805: 0
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      5      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+
+
+public com.subex.interconnect.sitespecific.telia.taskcontroller.tasks.orinterface.processor.dataaccess.ORInterfaceDatabaseInfoHolder getDatabaseInfoHolder();
+  Code:
+   Stack=1, Locals=1, Args_size=1
+   0:	aload_0
+   1:	getfield	#123; //Field databaseInfoHolder:Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/dataaccess/ORInterfaceDatabaseInfoHolder;
+   4:	areturn
+  LineNumberTable: 
+   line 810: 0
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      5      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+
+
+public com.subex.interconnect.sitespecific.telia.taskcontroller.tasks.orinterface.processor.ORProcessorTask getOrProcessorTask();
+  Code:
+   Stack=1, Locals=1, Args_size=1
+   0:	aload_0
+   1:	getfield	#187; //Field orProcessorTask:Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORProcessorTask;
+   4:	areturn
+  LineNumberTable: 
+   line 815: 0
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      5      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+
+
+public com.subex.interconnect.sitespecific.telia.caches.OatCodeOrAuditTypeCache getOatCodeOrAuditTypeCache();
+  Code:
+   Stack=1, Locals=1, Args_size=1
+   0:	aload_0
+   1:	getfield	#127; //Field oatCodeOrAuditTypeCache:Lcom/subex/interconnect/sitespecific/telia/caches/OatCodeOrAuditTypeCache;
+   4:	areturn
+  LineNumberTable: 
+   line 820: 0
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      5      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+
+
+public int getPartitionModRange();
+  Code:
+   Stack=1, Locals=1, Args_size=1
+   0:	aload_0
+   1:	getfield	#653; //Field partitionModRange:I
+   4:	ireturn
+  LineNumberTable: 
+   line 825: 0
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      5      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+
+
+public com.azure.spark.common.caching.keycache.IdKeyCache getCountryCache();
+  Signature: length = 0x2
+   03 75 
+  Code:
+   Stack=1, Locals=1, Args_size=1
+   0:	aload_0
+   1:	getfield	#133; //Field countryCache:Lcom/azure/spark/common/caching/keycache/IdKeyCache;
+   4:	areturn
+  LineNumberTable: 
+   line 830: 0
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      5      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+
+
+public com.azure.spark.common.caching.keycache.IdKeyCache getCurrencyCache();
+  Signature: length = 0x2
+   03 77 
+  Code:
+   Stack=1, Locals=1, Args_size=1
+   0:	aload_0
+   1:	getfield	#135; //Field currencyCache:Lcom/azure/spark/common/caching/keycache/IdKeyCache;
+   4:	areturn
+  LineNumberTable: 
+   line 835: 0
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      5      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+
+
+public com.azure.spark.common.caching.keycache.IdKeyCache getTariffRateNameCache();
+  Signature: length = 0x2
+   03 79 
+  Code:
+   Stack=1, Locals=1, Args_size=1
+   0:	aload_0
+   1:	getfield	#137; //Field tariffRateNameCache:Lcom/azure/spark/common/caching/keycache/IdKeyCache;
+   4:	areturn
+  LineNumberTable: 
+   line 840: 0
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      5      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+
+
+public java.util.Set getPreviousRunSuccessCASet();
+  Signature: length = 0x2
+   03 7B 
+  Code:
+   Stack=1, Locals=1, Args_size=1
+   0:	aload_0
+   1:	getfield	#143; //Field previousRunSuccessCASet:Ljava/util/Set;
+   4:	areturn
+  LineNumberTable: 
+   line 845: 0
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      5      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+
+
+public boolean isSnapshotIsolationIgnore();
+  Code:
+   Stack=1, Locals=1, Args_size=1
+   0:	aload_0
+   1:	getfield	#141; //Field isSnapshotIsolationIgnore:Z
+   4:	ireturn
+  LineNumberTable: 
+   line 850: 0
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      5      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+
+
+public java.util.Map getCtrIdCtrCodeMap();
+  Signature: length = 0x2
+   02 FFFFFF92 
+  Code:
+   Stack=1, Locals=1, Args_size=1
+   0:	aload_0
+   1:	getfield	#139; //Field ctrIdCtrCodeMap:Ljava/util/Map;
+   4:	areturn
+  LineNumberTable: 
+   line 855: 0
+
+  LocalVariableTable: 
+   Start  Length  Slot  Name   Signature
+   0      5      0    this       Lcom/subex/interconnect/sitespecific/telia/taskcontroller/tasks/orinterface/processor/ORCarrierAgreementImporter;
+
+
+}
+

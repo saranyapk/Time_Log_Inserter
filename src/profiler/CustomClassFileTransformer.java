@@ -16,13 +16,13 @@ import org.objectweb.asm.Opcodes;
 public class CustomClassFileTransformer implements ClassFileTransformer
 {
 
-    public static Map< String, HashMap< String, HashSet< Integer >> > profiles;
+    public static Map< String, HashSet< String > > profiles;
 
     public static String currentClass;
 
     static
     {
-        profiles = new HashMap< String, HashMap< String, HashSet< Integer >> >();
+        profiles = new HashMap< String, HashSet< String > >();
         String dir = System.getenv( "PROFILER_HOME" );
         System.out.println( dir );
         try
@@ -34,30 +34,18 @@ public class CustomClassFileTransformer implements ClassFileTransformer
                 String[] tokens = line.split( "\t" );
                 String classInfo = tokens[0];
                 String methodInfo = tokens[1];
-                Integer lineNumber = new Integer( tokens[2] );
-                HashMap< String, HashSet< Integer >> methodLineNumberMap;
+                HashSet< String > methods;
                 if ( profiles.containsKey( classInfo ) )
                 {
-                    methodLineNumberMap = profiles.get( classInfo );
-
-                    if ( !methodLineNumberMap.containsKey( methodInfo ) )
-                    {
-                        methodLineNumberMap.get( methodInfo ).add( lineNumber );
-                    }
-                    else
-                    {
-                        HashSet< Integer > lineNumberSet = new HashSet< Integer >();
-                        lineNumberSet.add( lineNumber );
-                        methodLineNumberMap.put( methodInfo, lineNumberSet );
-                    }
+                    methods = profiles.get( classInfo );
                 }
                 else
                 {
-                    methodLineNumberMap = new HashMap< String, HashSet< Integer >>();
-                    HashSet< Integer > lineNumberSet = new HashSet< Integer >();
-                    methodLineNumberMap.put( methodInfo, lineNumberSet );
-                    profiles.put( classInfo, methodLineNumberMap );
+                    methods = new HashSet< String >();
                 }
+
+                methods.add( methodInfo );
+                profiles.put( classInfo, methods );
             }
         }
         catch ( FileNotFoundException e )
