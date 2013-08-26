@@ -1,4 +1,4 @@
-package profiler;
+package Time_Log_Inserter.src.profiler;
 
 import java.io.*;
 import java.lang.instrument.ClassFileTransformer;

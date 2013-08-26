@@ -1,4 +1,4 @@
-package profiler;
+package Time_Log_Inserter.src.profiler;
 
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
