@@ -4,7 +4,6 @@ import java.io.*;
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -24,7 +23,7 @@ public class CustomClassFileTransformer implements ClassFileTransformer
     {
         profiles = new HashMap< String, HashSet< String > >();
         String dir = System.getenv( "PROFILER_HOME" );
-        System.out.println( dir );
+        System.out.println( "Reading Time Log Inserter Config" );
         try
         {
             BufferedReader br = new BufferedReader( new FileReader( new File( dir + "\\classes.txt" ) ) );
@@ -56,7 +55,6 @@ public class CustomClassFileTransformer implements ClassFileTransformer
         {
             System.out.println( "IOException" + e );
         }
-
     }
 
     @Override
@@ -66,7 +64,7 @@ public class CustomClassFileTransformer implements ClassFileTransformer
 
         currentClass = className;
 
-        if ( profiles.containsKey( getOnlyClassName( className ) ) )
+        if ( profiles != null && profiles.containsKey( getOnlyClassName( className ) ) )
         {
             System.out.println( "Profiling - Class " + getOnlyClassName( className ) );
 
@@ -82,7 +80,7 @@ public class CustomClassFileTransformer implements ClassFileTransformer
         }
         else
         {
-            System.out.println( "Skipping - Class " + getOnlyClassName( className ) );
+            //System.out.println( "Skipping - Class " + getOnlyClassName( className ) );
 
             return classfileBuffer;
         }
@@ -90,9 +88,9 @@ public class CustomClassFileTransformer implements ClassFileTransformer
 
     private String getOnlyClassName( String className )
     {
-        if ( className.contains( "\\" ) )
+        if ( className.contains( "//" ) )
         {
-            return className.substring( className.lastIndexOf( "\\" ), className.length() );
+            return className.substring( className.lastIndexOf( "//" ), className.length() );
         }
 
         return className;
